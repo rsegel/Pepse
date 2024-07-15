@@ -4,6 +4,7 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
 
@@ -26,15 +27,22 @@ public class Terrain {
     public float groundHeightAt(float x) { return groundHeightAtX0; }
 
     public List<Block> createInRange(int minX, int maxX) {
-        // create list of a single block
-        Block singleBlock = new Block(
-                // put the block in the top left corner of the screen
-                new Vector2(0, 0),
-                new RectangleRenderable(ColorSupplier.approximateColor(
-                        BASE_GROUND_COLOR))
-        );
-        singleBlock.setTag("ground");
-        return List.of(singleBlock);
+        List<Block> blocks = new ArrayList<>();
+        // find the closest X that is a multiple of 30
+        // it should be smaller than minX
+        int closestStartX = minX - (minX % 30);
+        int closestEndX = maxX + (30 - (maxX % 30));
+        for (int x = closestStartX; x < closestEndX; x += 30) {
+            // create a block at x, groundHeightAt(x)
+            Block block = new Block(
+                    new Vector2(x, groundHeightAt(x)),
+                    new RectangleRenderable(BASE_GROUND_COLOR)
+            );
+            blocks.add(block);
+        }
+        return blocks;
+
+
 
     }
 
