@@ -8,6 +8,7 @@ import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import pepse.world.Sky;
 import pepse.world.daynight.Night;
+import pepse.world.daynight.Sun;
 
 public class PepseGameManager extends GameManager {
 
@@ -19,6 +20,8 @@ public class PepseGameManager extends GameManager {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         GameObject sky = Sky.create(windowController.getWindowDimensions());
         gameObjects().addGameObject(sky, skyLayer);
+        GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
+        gameObjects().addGameObject(sun, skyLayer);
         GameObject night = Night.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
         gameObjects().addGameObject(night, skyLayer);
     }
