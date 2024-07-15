@@ -43,4 +43,12 @@ public class Sun {
                 cycleLength, Transition.TransitionType.TRANSITION_LOOP, null);
         return sun;
     }
+
+    /**
+     * Get the sun's diameter.
+     * @return The sun's diameter.
+     */
+    public static float getSunDim() {
+        return SUN_DIM;
+    }
 }
