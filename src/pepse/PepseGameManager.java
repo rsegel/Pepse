@@ -8,10 +8,13 @@ import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.util.Vector2;
-import pepse.world.*;
+import pepse.world.Block;
+import pepse.world.Sky;
 import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
+import pepse.world.Terrain;
 import pepse.world.daynight.SunHalo;
+import pepse.world.Avatar;
 
 import java.util.List;
 
@@ -44,11 +47,6 @@ public class PepseGameManager extends GameManager {
         Vector2 avatarPositionTopLeft = new Vector2(0, Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
         Avatar avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
         gameObjects().addGameObject(avatar);
-
-        EnergyCallback energyCallback = avatar;
-        EnergyRenderer energyRenderer = new EnergyRenderer(energyCallback);
-        gameObjects().addGameObject(energyRenderer, Layer.UI);
-
 
 
 

@@ -3,15 +3,19 @@ package pepse.world;
 import danogl.GameObject;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
+import danogl.gui.rendering.ImageRenderable;
+import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+import danogl.gui.rendering.AnimationRenderable;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 
-public class Avatar extends GameObject implements EnergyCallback {
+public class Avatar extends GameObject {
 
     static final String AVATAR_PATH = "assets/idle_0.png";
+    private final ImageReader imagereader;
     private static final int ENERGY_LOSS_JUMP = 10;
     private static final double ENERGY_LOSS_RUN = 0.5;
     final UserInputListener inputListener;
@@ -20,8 +24,31 @@ public class Avatar extends GameObject implements EnergyCallback {
     private static final float VELOCITY_Y = -650;
     private static final float GRAVITY = 600;
     private static final Vector2 AVATAR_SIZE = new Vector2(30, 50);
+    private boolean isRight = true;
+    private float TIME_BETWEEN_FRAMES = 0.2f;
 
     private static final Color AVATAR_COLOR = Color.DARK_GRAY;
+    private static final String[] AVATAR_RUN_PATHS = new String[]{
+            "assets/run_0.png",
+            "assets/run_1.png",
+            "assets/run_2.png",
+            "assets/run_3.png",
+            "assets/run_4.png",
+            "assets/run_5.png"
+    };
+    private static final String[] AVATAR_JUMP_PATHS = new String[]{
+            "assets/jump_0.png",
+            "assets/jump_1.png",
+            "assets/jump_2.png",
+            "assets/jump_3.png"
+    };
+    private static final String[] AVATAR_IDLE_PATHS = new String[]{
+            "assets/idle_0.png",
+            "assets/idle_1.png",
+            "assets/idle_2.png",
+            "assets/idle_3.png"
+    };
+
     private float energy;
 
     public Avatar(Vector2 topLeftCorner,
@@ -30,12 +57,14 @@ public class Avatar extends GameObject implements EnergyCallback {
         super(topLeftCorner,
                 AVATAR_SIZE,
                 imageReader.readImage(AVATAR_PATH, true));
+        this.imagereader = imageReader;
         this.inputListener = inputListener;
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         transform().setAccelerationY(GRAVITY);
         energy = ENERGY_INIT;
-    }
 
+    }
+    // TODO: the animation is not changing between the different photos in the array
     @Override
     public void update(float deltaTime) {
         boolean toAddEnergy = true;
@@ -46,11 +75,29 @@ public class Avatar extends GameObject implements EnergyCallback {
             xVel -= VELOCITY_X;
             energy -= (float) ENERGY_LOSS_RUN;
             toAddEnergy = false;
-        }
-        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT) && energy > ENERGY_LOSS_RUN){
+            // set the renderable to AnimationRenderable
+            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS, imagereader, true, 0.1f));
+            if(isRight) {
+                renderer().setIsFlippedHorizontally(true);
+                isRight = false;
+            }
+        } else if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT) && energy > ENERGY_LOSS_RUN) {
             xVel += VELOCITY_X;
             energy -= (float) ENERGY_LOSS_RUN;
             toAddEnergy = false;
+            // set the renderable to AnimationRenderable
+            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
+            if (!isRight) {
+                renderer().setIsFlippedHorizontally(false);
+                isRight = true;
+            }
+        } else if (getVelocity().y() != 0) {
+            // set the renderable to AnimationRenderable
+            renderer().setRenderable(new AnimationRenderable(AVATAR_JUMP_PATHS, imagereader, false, TIME_BETWEEN_FRAMES));
+        } else {
+            // set the renderable to AnimationRenderable
+            renderer().setRenderable(new AnimationRenderable(AVATAR_IDLE_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
+
         }
         transform().setVelocityX(xVel);
         // TODO: how to handle jumping?
@@ -61,15 +108,23 @@ public class Avatar extends GameObject implements EnergyCallback {
             transform().setVelocityY(VELOCITY_Y);
             energy -= ENERGY_LOSS_JUMP;
             toAddEnergy = false;
+            hasJumped();
         }
         if(toAddEnergy && energy < ENERGY_INIT){
             energy += 1;
         }
-        // TODO: prevent the avatar from going off the screen
     }
 
-    @Override
-    public int getEnergy() {
-        return (int) energy;
+    public void addEnergy(float energy){
+        this.energy += energy;
+    }
+
+    public boolean hasJumped() {
+        return true;
+    }
+    // TODO: should implement something like the News broadcast example in TA
+    @FunctionalInterface
+    public interface StateMessage {
+        boolean hasJumped();
     }
 }
