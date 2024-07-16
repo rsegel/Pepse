@@ -14,6 +14,13 @@ public class Leaf extends GameObject {
         super(location,
                 new Vector2(LEAF_SIZE, LEAF_SIZE),
                 new RectangleRenderable(LEAF_COLOR));
+        this.setTag("leaf");
+    }
+
+    public boolean shouldCollideWith(GameObject other) {
+        if (other.getTag().equals("leaf") || other.getTag().equals("fruit"))
+            return false;
+        return(super.shouldCollideWith(other));
     }
 
     public static int getLeafSize(){
