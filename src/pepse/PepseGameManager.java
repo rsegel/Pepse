@@ -12,6 +12,10 @@ import pepse.world.*;
 import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
 import pepse.world.daynight.SunHalo;
+import pepse.world.trees.Flora;
+import pepse.world.trees.Fruit;
+import pepse.world.trees.Leaf;
+import pepse.world.trees.Tree;
 
 import java.util.List;
 
@@ -37,6 +41,19 @@ public class PepseGameManager extends GameManager {
         // TODO: add functionality to add only the top blocks in each column to a layer that supports collisions
         for (Block block : blockList) {
             gameObjects().addGameObject(block, Layer.STATIC_OBJECTS); // TODO: add to correct layer
+        }
+        Flora flora = new Flora();
+        List<Tree> treesList = flora.createInRange(0, (int) windowController.getWindowDimensions().x());
+        for (Tree tree : treesList){
+            gameObjects().addGameObject(tree, Layer.STATIC_OBJECTS);
+            List<Leaf> leaves = tree.getLeaves();
+            for (Leaf leaf : leaves){
+                gameObjects().addGameObject(leaf, Layer.STATIC_OBJECTS);
+            }
+            List<Fruit> fruits = tree.getFruits();
+            for (Fruit fruit : fruits){
+                gameObjects().addGameObject(fruit, Layer.STATIC_OBJECTS);
+            }
         }
         GameObject sunHalo = SunHalo.create(sun);
         gameObjects().addGameObject(sunHalo, skyLayer);

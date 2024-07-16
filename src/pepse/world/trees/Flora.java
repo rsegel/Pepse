@@ -9,14 +9,15 @@ import java.util.Random;
 
 public class Flora {
 
-    private static final int RANDOM_BOUND = 10;
+    private static final int TREE_SPACEING = 80;
+    private static final float PROBABILITY_FOR_TREE = 0.1f;
 
     public List<Tree> createInRange(int minX, int maxX) {
         List<Tree> trees = new ArrayList<>();
-        Random random = new Random();
-        for (int x = minX; x <= maxX; x += 10){
-            if (random.nextInt(RANDOM_BOUND) != 0) continue;
+        for (int x = minX; x <= maxX; x += TREE_SPACEING){
+            if (Math.random() > PROBABILITY_FOR_TREE) continue;
             Vector2 location = new Vector2(x, Terrain.getGroundHeightAtX0());
+            // TODO - correct for changing terrain
             trees.add(new Tree(location));
         }
         return trees;
