@@ -11,11 +11,11 @@ import java.util.ArrayList;
 public class Tree extends GameObject{
 
     private static final float TREE_HEIGHT = 150;
-    private static final float TREE_WIDTH = 20;
+    private static final float TREE_WIDTH = 30;
     private static final Color TREE_COLOR = new Color(100, 50, 20);
     private static final int CANOPY_SIZE = 8;
     private static final float PROBABILITY_FOR_LEAF = 0.7f;
-    private static final float PROBABILITY_FOR_FRUIT = 0.3f;
+    private static final float PROBABILITY_FOR_FRUIT = 0.2f;
     private ArrayList<Leaf> leaves;
     private ArrayList<Fruit> fruits;
 
@@ -26,11 +26,13 @@ public class Tree extends GameObject{
         this.leaves = new ArrayList<>();
         this.fruits = new ArrayList<>();
         int leafSize = Leaf.getLeafSize();
+        int xOffset = (int) (leafSize * CANOPY_SIZE - TREE_WIDTH) / 2;
+        int yOffset = (int) (leafSize * CANOPY_SIZE) / 2;
         for (int i = 0; i < CANOPY_SIZE; i++){
             for (int j = 0; j < CANOPY_SIZE; j++){
                 Vector2 canopyLocation = new Vector2(
-                        location.x() + i * leafSize,
-                        location.y() - TREE_HEIGHT + j * leafSize
+                        location.x() + i * leafSize - xOffset,
+                        location.y() - TREE_HEIGHT + j * leafSize - yOffset
                 );
                 if (Math.random() < PROBABILITY_FOR_LEAF) {
                     this.leaves.add(new Leaf(canopyLocation));

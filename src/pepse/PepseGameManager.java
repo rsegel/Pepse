@@ -62,9 +62,9 @@ public class PepseGameManager extends GameManager {
         Avatar avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
         gameObjects().addGameObject(avatar);
 
-        EnergyCallback energyCallback = avatar;
-        EnergyRenderer energyRenderer = new EnergyRenderer(energyCallback);
-        gameObjects().addGameObject(energyRenderer, Layer.UI);
+//        EnergyCallback energyCallback = avatar;
+//        EnergyRenderer energyRenderer = new EnergyRenderer(energyCallback);
+//        gameObjects().addGameObject(energyRenderer, Layer.UI);
 
 
 

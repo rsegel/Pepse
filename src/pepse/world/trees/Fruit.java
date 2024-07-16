@@ -8,10 +8,13 @@ import java.awt.*;
 
 public class Fruit extends GameObject {
 
+    private static final float FRUIT_SIZE = 15;
+    private static final Color FRUIT_COLOR = new Color(255, 0, 0);
+
     public Fruit(Vector2 location) {
         super(location,
-                new Vector2(10, 10),
-                new OvalRenderable(new Color(255, 0, 0)));
+                new Vector2(FRUIT_SIZE, FRUIT_SIZE),
+                new OvalRenderable(FRUIT_COLOR));
         this.setTag("fruit");
     }
 

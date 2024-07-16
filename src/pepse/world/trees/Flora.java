@@ -10,7 +10,7 @@ import java.util.Random;
 public class Flora {
 
     private static final int TREE_SPACEING = 80;
-    private static final float PROBABILITY_FOR_TREE = 0.1f;
+    private static final float PROBABILITY_FOR_TREE = 0.2f;
 
     public List<Tree> createInRange(int minX, int maxX) {
         List<Tree> trees = new ArrayList<>();
