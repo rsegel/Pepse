@@ -1,6 +1,8 @@
 package pepse.world.trees;
 
 import danogl.GameObject;
+import danogl.collisions.Collision;
+import danogl.components.ScheduledTask;
 import danogl.gui.rendering.OvalRenderable;
 import danogl.util.Vector2;
 
@@ -10,6 +12,7 @@ public class Fruit extends GameObject {
 
     private static final float FRUIT_SIZE = 15;
     private static final Color FRUIT_COLOR = new Color(255, 0, 0);
+    private static final int CYCLE_LENGTH = 30; //TODO - unify with gameManager somehow
 
     public Fruit(Vector2 location) {
         super(location,
@@ -22,5 +25,22 @@ public class Fruit extends GameObject {
         if (other.getTag().equals("leaf") || other.getTag().equals("fruit"))
             return false;
         return(super.shouldCollideWith(other));
+    }
+
+    @Override
+    public void onCollisionEnter(GameObject other, Collision collision) {
+        super.onCollisionEnter(other, collision);
+        if (other.getTag().equals("avatar")) {
+            this.renderer().setOpaqueness(1);
+            this.setTag("collected");
+            new ScheduledTask(this,
+                    CYCLE_LENGTH,
+                    false, this::reAppear);
+        }
+    }
+
+    private void reAppear() {
+        this.renderer().setOpaqueness(0);
+        this.setTag("fruit");
     }
 }

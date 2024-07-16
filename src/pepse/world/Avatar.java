@@ -62,7 +62,7 @@ public class Avatar extends GameObject {
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         transform().setAccelerationY(GRAVITY);
         energy = ENERGY_INIT;
-
+        this.setTag("avatar");
     }
     // TODO: the animation is not changing between the different photos in the array
     @Override
