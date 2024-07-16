@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 
-public class Avatar extends GameObject {
+public class Avatar extends GameObject implements EnergyCallback {
 
     static final String AVATAR_PATH = "assets/idle_0.png";
     private static final int ENERGY_LOSS_JUMP = 10;
@@ -65,5 +65,11 @@ public class Avatar extends GameObject {
         if(toAddEnergy && energy < ENERGY_INIT){
             energy += 1;
         }
+        // TODO: prevent the avatar from going off the screen
+    }
+
+    @Override
+    public int getEnergy() {
+        return (int) energy;
     }
 }
