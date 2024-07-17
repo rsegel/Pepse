@@ -23,13 +23,13 @@ enum AvatarState {
 public class Avatar extends GameObject{
 
     static final String AVATAR_PATH = "assets/idle_0.png";
-    private static final float FRUIT_ENERGY = 100;
+    private static final float FRUIT_ENERGY = 10;
     private final ImageReader imagereader;
     private static final int ENERGY_LOSS_JUMP = 10;
-    private static final double ENERGY_LOSS_RUN = 4;
+    private static final double ENERGY_LOSS_RUN = 0.5;
     final UserInputListener inputListener;
     private static final float VELOCITY_X = 400;
-    private static final float ENERGY_INIT = 400;
+    private static final float ENERGY_INIT = 100;
     private static final float VELOCITY_Y = -650;
     private static final float GRAVITY = 600;
     private static final Vector2 AVATAR_SIZE = new Vector2(30, 50);
@@ -164,9 +164,13 @@ public class Avatar extends GameObject{
 
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
-        super.onCollisionEnter(other, collision);
         if (other.getTag().equals("fruit")) {
             energy += FRUIT_ENERGY;
+            if (energy > ENERGY_INIT) {
+                energy = ENERGY_INIT;
+            }
+            other.setTag("collectedFruit");
         }
+        super.onCollisionEnter(other, collision);
     }
 }
