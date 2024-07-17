@@ -24,7 +24,7 @@ public class PepseGameManager extends GameManager {
     private static final int skyLayer = Layer.BACKGROUND;
     private static final int NIGHT_LAYER = Layer.UI + 1; //TODO - consider
     private static final int CYCLE_DEFAULT = 30;
-    private static final float OFFSIDE_AVATAR_Y = 50;
+    private static final float OFFSIDE_AVATAR_Y = 200;
 
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
@@ -40,7 +40,9 @@ public class PepseGameManager extends GameManager {
         List<Block> blockList = t.createInRange(1,1600);
         // TODO: add functionality to add only the top blocks in each column to a layer that supports collisions
         for (Block block : blockList) {
-            gameObjects().addGameObject(block, Layer.STATIC_OBJECTS); // TODO: add to correct layer
+            if (block.getTag().equals("topLayerBlock"))
+                gameObjects().addGameObject(block, Layer.STATIC_OBJECTS); // TODO: add to correct layer
+            else gameObjects().addGameObject(block, Layer.BACKGROUND);
         }
         Flora flora = new Flora();
         List<Tree> treesList = flora.createInRange(0, (int) windowController.getWindowDimensions().x());
@@ -48,11 +50,11 @@ public class PepseGameManager extends GameManager {
             gameObjects().addGameObject(tree, Layer.STATIC_OBJECTS);
             List<Leaf> leaves = tree.getLeaves();
             for (Leaf leaf : leaves){
-                gameObjects().addGameObject(leaf, Layer.UI);
+                gameObjects().addGameObject(leaf, Layer.BACKGROUND);
             }
             List<Fruit> fruits = tree.getFruits();
             for (Fruit fruit : fruits){
-                gameObjects().addGameObject(fruit, Layer.UI);
+                gameObjects().addGameObject(fruit, Layer.STATIC_OBJECTS);
             }
         }
         GameObject sunHalo = SunHalo.create(sun);
@@ -65,9 +67,6 @@ public class PepseGameManager extends GameManager {
 //        EnergyCallback energyCallback = avatar;
 //        EnergyRenderer energyRenderer = new EnergyRenderer(energyCallback);
 //        gameObjects().addGameObject(energyRenderer, Layer.UI);
-
-
-
 
     }
 

@@ -37,6 +37,7 @@ public class Terrain {
         int closestEndX = maxX + (DIST_BWTWEENBLOCKS - (maxX % DIST_BWTWEENBLOCKS));
         for (int x = closestStartX; x < closestEndX; x += DIST_BWTWEENBLOCKS) {
             for (int i = 0; i < DEPTH_OF_BLOCKS1; i++) {
+                boolean isTopLayer = i == 0;
                 // create a block at x, groundHeightAt(x)
                 Block block = new Block(
                         new Vector2(
@@ -44,7 +45,7 @@ public class Terrain {
                                 (float) (Math.floor(groundHeightAt(x)/Block.SIZE) * Block.SIZE)
                                         + i * Block.SIZE
                         ),
-                        new RectangleRenderable(BASE_GROUND_COLOR)
+                        new RectangleRenderable(BASE_GROUND_COLOR), isTopLayer
                 );
                 blocks.add(block);
             }
