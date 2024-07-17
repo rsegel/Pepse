@@ -31,7 +31,7 @@ public class Fruit extends GameObject {
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
         if (other.getTag().equals("avatar")) {
-            this.renderer().setOpaqueness(1);
+            this.renderer().setOpaqueness(0);
             this.setTag("collected");
             new ScheduledTask(this,
                     CYCLE_LENGTH,
@@ -40,7 +40,7 @@ public class Fruit extends GameObject {
     }
 
     private void reAppear() {
-        this.renderer().setOpaqueness(0);
+        this.renderer().setOpaqueness(1);
         this.setTag("fruit");
     }
 }
