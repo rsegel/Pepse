@@ -5,6 +5,7 @@ import danogl.components.GameObjectPhysics;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+import pepse.util.ColorSupplier;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,18 +14,19 @@ public class Tree extends GameObject{
 
     private static final float TREE_HEIGHT = 150;
     private static final float TREE_WIDTH = 25;
-    private static final Color TREE_COLOR = new Color(100, 50, 20);
     private static final int CANOPY_SIZE = 8;
     private static final float PROBABILITY_FOR_LEAF = 0.7f;
     private static final float PROBABILITY_FOR_FRUIT = 0.2f;
     private static final float TURN_WHEN_JUMPS = 90;
+    private static final int TREE_COLOR_DELTA = 20;
+    private static final Color BASE_TREE_COLOR = new Color(100, 50, 20);
     private ArrayList<Leaf> leaves;
     private ArrayList<Fruit> fruits;
 
     public Tree(Vector2 location){
         super(new Vector2(location.x(),location.y() - TREE_HEIGHT),
                 new Vector2(TREE_WIDTH, TREE_HEIGHT),
-                new RectangleRenderable(TREE_COLOR));
+                new RectangleRenderable(ColorSupplier.approximateColor(BASE_TREE_COLOR)));
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
         this.leaves = new ArrayList<>();
@@ -58,6 +60,7 @@ public class Tree extends GameObject{
 
     public Runnable avatarJumped() {
         return () -> {
+            this.renderer().setRenderable(new RectangleRenderable(ColorSupplier.approximateColor(BASE_TREE_COLOR)));
             for (Leaf leaf : this.leaves){
                 leaf.avatarJumped();
             }
