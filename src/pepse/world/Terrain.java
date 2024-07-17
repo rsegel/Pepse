@@ -51,7 +51,7 @@ public class Terrain {
                                 (float) (Math.floor(groundHeightAt(x)/ SIZE) * SIZE)
                                         + i * SIZE
                         ),
-                        new RectangleRenderable(BASE_GROUND_COLOR), isTopLayer
+                        new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR)), isTopLayer
                 );
                 blocks.add(block);
             }
