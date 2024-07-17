@@ -42,4 +42,10 @@ public class Fruit extends GameObject {
         this.renderer().setOpaqueness(1);
         this.setTag("fruit");
     }
+
+    public Runnable avatarJumped() {
+        return () -> {
+            this.renderer().setRenderable(new OvalRenderable(Color.PINK));
+        };
+    }
 }

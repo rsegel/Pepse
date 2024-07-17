@@ -11,6 +11,7 @@ import danogl.gui.rendering.AnimationRenderable;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 // create enum for the different states of the avatar
 enum AvatarState {
@@ -36,6 +37,7 @@ public class Avatar extends GameObject{
     private boolean isRight = true;
     private float TIME_BETWEEN_FRAMES = 0.2f;
     private AvatarState state;
+    private ArrayList<Runnable> updateWhenJumping = new ArrayList<Runnable>();
 
     private static final Color AVATAR_COLOR = Color.DARK_GRAY;
     private static final String[] AVATAR_RUN_PATHS = new String[]{
@@ -75,7 +77,7 @@ public class Avatar extends GameObject{
         this.setTag("avatar");
         this.state = AvatarState.IDLE;
     }
-    // TODO: the animation is not changing between the different photos in the array
+
     @Override
     public void update(float deltaTime) {
         boolean toAddEnergy = true;
@@ -103,16 +105,12 @@ public class Avatar extends GameObject{
         }
         transform().setVelocityX(xVel);
         // TODO: how to handle jumping?
-        if(
-                inputListener.isKeyPressed(KeyEvent.VK_SPACE) &&
-                        getVelocity().y() == 0 &&
-                        energy > ENERGY_LOSS_JUMP) {
-            transform().setVelocityY(VELOCITY_Y);
-            energy -= ENERGY_LOSS_JUMP;
-            toAddEnergy = false;
-            hasJumped();
+        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE) &&
+                    getVelocity().y() == 0 &&
+                    energy > ENERGY_LOSS_JUMP) {
+            handleJump();
         }
-        if(toAddEnergy && energy < ENERGY_INIT){
+        if(state == AvatarState.IDLE && energy < ENERGY_INIT){
             energy += 1;
         }
     }
@@ -124,13 +122,16 @@ public class Avatar extends GameObject{
         this.energy += energy;
     }
 
-    public boolean hasJumped() {
-        return true;
+    public void addJumpObserver(Runnable observer){
+        updateWhenJumping.add(observer);
     }
-    // TODO: should implement something like the News broadcast example in TA
-    @FunctionalInterface
-    public interface StateMessage {
-        boolean hasJumped();
+
+    private void handleJump(){
+        transform().setVelocityY(VELOCITY_Y);
+        energy -= ENERGY_LOSS_JUMP;
+        for (Runnable observer : updateWhenJumping) {
+            observer.run();
+        }
     }
 
     private float handleLeftMovement(float xVel) {
@@ -172,5 +173,9 @@ public class Avatar extends GameObject{
             other.setTag("collectedFruit");
         }
         super.onCollisionEnter(other, collision);
+    }
+
+    public void addUpdateWhenJumping(Runnable update) {
+        updateWhenJumping.add(update);
     }
 }
