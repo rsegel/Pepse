@@ -17,6 +17,7 @@ public class Tree extends GameObject{
     private static final int CANOPY_SIZE = 8;
     private static final float PROBABILITY_FOR_LEAF = 0.7f;
     private static final float PROBABILITY_FOR_FRUIT = 0.2f;
+    private static final float TURN_WHEN_JUMPS = 90;
     private ArrayList<Leaf> leaves;
     private ArrayList<Fruit> fruits;
 
@@ -53,5 +54,16 @@ public class Tree extends GameObject{
 
     public ArrayList<Fruit> getFruits(){
         return this.fruits;
+    }
+
+    public Runnable avatarJumped() {
+        return () -> {
+            for (Leaf leaf : this.leaves){
+                leaf.avatarJumped();
+            }
+            for (Fruit fruit : this.fruits){
+                fruit.avatarJumped();
+            }
+        };
     }
 }

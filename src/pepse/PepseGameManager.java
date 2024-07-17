@@ -54,6 +54,7 @@ public class PepseGameManager extends GameManager {
         List<Tree> treesList = flora.createInRange(0, (int) windowController.getWindowDimensions().x());
         for (Tree tree : treesList){
             gameObjects().addGameObject(tree, Layer.STATIC_OBJECTS);
+            avatar.addJumpObserver(tree.avatarJumped());
             List<Leaf> leaves = tree.getLeaves();
             for (Leaf leaf : leaves){
                 gameObjects().addGameObject(leaf, Layer.STATIC_OBJECTS);
@@ -61,7 +62,6 @@ public class PepseGameManager extends GameManager {
             List<Fruit> fruits = tree.getFruits();
             for (Fruit fruit : fruits){
                 gameObjects().addGameObject(fruit, Layer.STATIC_OBJECTS);
-                avatar.addJumpObserver(fruit.avatarJumped());
             }
         }
         GameObject sunHalo = SunHalo.create(sun);

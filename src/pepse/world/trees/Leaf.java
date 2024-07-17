@@ -13,6 +13,8 @@ public class Leaf extends GameObject {
     private static final Color LEAF_COLOR = new Color(50, 200, 30);
     private static final Float ROTATION_ANGLE = 15f;
     private static final float CYCLE_LENGTH = 1f;
+    private static final float DEG_CHANGE_ON_JUMP = 90;
+    private static final float JUMP_TIME = 2;
 
     public Leaf(Vector2 location) {
         super(location,
@@ -22,10 +24,10 @@ public class Leaf extends GameObject {
         float waitTime = (float) (Math.random());
         new ScheduledTask(this,
                 waitTime,
-                false, this::rotateLeaf);
+                false, this::wobbleLeaf);
     }
 
-    private void rotateLeaf() {
+    private void wobbleLeaf() {
         new Transition<Float>(this,
                 this.renderer()::setRenderableAngle,
                 -ROTATION_ANGLE, ROTATION_ANGLE, Transition.LINEAR_INTERPOLATOR_FLOAT,
@@ -40,5 +42,13 @@ public class Leaf extends GameObject {
 
     public static int getLeafSize(){
         return LEAF_SIZE;
+    }
+
+    public void avatarJumped() {
+        float current_angle = this.renderer().getRenderableAngle();
+        new Transition<Float>(this, (Float angle)->{this.renderer().setRenderableAngle(angle);} , current_angle,
+                current_angle + DEG_CHANGE_ON_JUMP,
+                Transition.LINEAR_INTERPOLATOR_FLOAT,
+                JUMP_TIME, Transition.TransitionType.TRANSITION_ONCE, null);
     }
 }

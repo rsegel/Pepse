@@ -1,5 +1,7 @@
 package pepse.world.trees;
 
-public interface AvatarJumpObserver {
+import danogl.GameObject;
+
+public interface AvatarJumpObserver{
     Runnable avatarJumped();
 }

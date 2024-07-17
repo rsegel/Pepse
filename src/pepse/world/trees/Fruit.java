@@ -9,7 +9,7 @@ import pepse.util.ColorSupplier;
 
 import java.awt.*;
 
-public class Fruit extends GameObject {
+public class Fruit extends GameObject{
 
     private static final float FRUIT_SIZE = 15;
     private static final Color FRUIT_COLOR = new Color(255, 0, 0);
@@ -45,10 +45,8 @@ public class Fruit extends GameObject {
         this.setTag("fruit");
     }
 
-    public Runnable avatarJumped() {
-        return () -> {
-            this.renderer().setRenderable(new OvalRenderable(randomFruitColor()));
-        };
+    public void avatarJumped() {
+        this.renderer().setRenderable(new OvalRenderable(randomFruitColor()));
     }
 
     private Color randomFruitColor() {

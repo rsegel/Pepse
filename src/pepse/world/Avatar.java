@@ -8,6 +8,7 @@ import danogl.gui.rendering.ImageRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import danogl.gui.rendering.AnimationRenderable;
+import pepse.world.trees.AvatarJumpObserver;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -21,7 +22,7 @@ enum AvatarState {
 }
 
 
-public class Avatar extends GameObject{
+public class Avatar extends GameObject {
 
     static final String AVATAR_PATH = "assets/idle_0.png";
     private static final float FRUIT_ENERGY = 10;
@@ -84,7 +85,7 @@ public class Avatar extends GameObject{
         super.update(deltaTime);
         float xVel = 0;
         // check if the avatar is running and has enough energy
-        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT) && energy > ENERGY_LOSS_RUN){
+        if (inputListener.isKeyPressed(KeyEvent.VK_LEFT) && energy > ENERGY_LOSS_RUN) {
             xVel = handleLeftMovement(xVel);
 
         } else if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT) && energy > ENERGY_LOSS_RUN) {
@@ -105,28 +106,29 @@ public class Avatar extends GameObject{
         }
         transform().setVelocityX(xVel);
         // TODO: how to handle jumping?
-        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE) &&
-                    getVelocity().y() == 0 &&
-                    energy > ENERGY_LOSS_JUMP) {
+        if (inputListener.isKeyPressed(KeyEvent.VK_SPACE) &&
+                getVelocity().y() == 0 &&
+                energy > ENERGY_LOSS_JUMP) {
             handleJump();
         }
-        if(state == AvatarState.IDLE && energy < ENERGY_INIT){
+        if (state == AvatarState.IDLE && energy < ENERGY_INIT) {
             energy += 1;
         }
     }
+
     public float getEnergy() {
-        return  energy;
+        return energy;
     }
 
-    public void addEnergy(float energy){
+    public void addEnergy(float energy) {
         this.energy += energy;
     }
 
-    public void addJumpObserver(Runnable observer){
+    public void addJumpObserver(Runnable observer) {
         updateWhenJumping.add(observer);
     }
 
-    private void handleJump(){
+    private void handleJump() {
         transform().setVelocityY(VELOCITY_Y);
         energy -= ENERGY_LOSS_JUMP;
         for (Runnable observer : updateWhenJumping) {
@@ -173,9 +175,5 @@ public class Avatar extends GameObject{
             other.setTag("collectedFruit");
         }
         super.onCollisionEnter(other, collision);
-    }
-
-    public void addUpdateWhenJumping(Runnable update) {
-        updateWhenJumping.add(update);
     }
 }
