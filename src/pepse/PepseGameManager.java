@@ -54,7 +54,7 @@ public class PepseGameManager extends GameManager {
             }
             List<Fruit> fruits = tree.getFruits();
             for (Fruit fruit : fruits){
-                gameObjects().addGameObject(fruit, Layer.STATIC_OBJECTS);
+                gameObjects().addGameObject(fruit);
             }
         }
         GameObject sunHalo = SunHalo.create(sun);

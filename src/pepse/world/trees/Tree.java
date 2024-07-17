@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Tree extends GameObject{
 
     private static final float TREE_HEIGHT = 150;
-    private static final float TREE_WIDTH = 30;
+    private static final float TREE_WIDTH = 25;
     private static final Color TREE_COLOR = new Color(100, 50, 20);
     private static final int CANOPY_SIZE = 8;
     private static final float PROBABILITY_FOR_LEAF = 0.7f;

@@ -30,9 +30,9 @@ public class Fruit extends GameObject {
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
-        if (other.getTag().equals("avatar")) {
+        if (other.getTag().equals("avatar") && this.getTag().equals("fruit")) {
             this.renderer().setOpaqueness(0);
-            this.setTag("collected");
+            this.setTag("collectedFruit");
             new ScheduledTask(this,
                     CYCLE_LENGTH,
                     false, this::reAppear);
