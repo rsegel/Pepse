@@ -7,6 +7,7 @@ import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
+import danogl.gui.rendering.Camera;
 import danogl.util.Vector2;
 import pepse.world.*;
 import pepse.world.daynight.Night;
@@ -29,6 +30,7 @@ public class PepseGameManager extends GameManager {
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
+//        windowController.setTargetFramerate(10);
         GameObject sky = Sky.create(windowController.getWindowDimensions());
         gameObjects().addGameObject(sky, skyLayer);
         Terrain t = new Terrain(windowController.getWindowDimensions(), 0);
@@ -66,8 +68,15 @@ public class PepseGameManager extends GameManager {
         // TODO: smart formula for the OFFSIDE_AVATAR_Y
         EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
         gameObjects().addGameObject(energyRenderer, Layer.UI);
+        // windowController.getWindowDimensions().mult(0.5f) - initialAvatarLocation
+        Vector2 dist_vector = new Vector2(
+                windowController.getWindowDimensions().x() * 0.5f - avatarPositionTopLeft.x(),
+                windowController.getWindowDimensions().y() * 0.5f - avatarPositionTopLeft.y()
 
-
+        );
+        setCamera(new Camera(avatar, dist_vector,
+                windowController.getWindowDimensions(),
+                windowController.getWindowDimensions()));
     }
 
     public static void main(String[] args) {
