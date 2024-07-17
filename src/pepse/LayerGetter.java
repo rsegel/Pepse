@@ -3,32 +3,30 @@ package pepse;
 import danogl.collisions.Layer;
 
 public class LayerGetter {
-    public static int getLayer(Tags tag) {
+    public static int getLayer(String tag) {
         switch (tag) {
-            case AVATAR:
+            case "avatar":
                 return Layer.DEFAULT;
-            case GROUND:
+            case "ground":
                 return Layer.STATIC_OBJECTS;
-            case UNDER_GROUND:
-                return Layer.BACKGROUND;
-            case TREE:
+            case "tree":
                 return Layer.STATIC_OBJECTS;
-            case FRUIT:
+            case "fruit":
                 return Layer.STATIC_OBJECTS + 2;
-            case FLOWER:
+            case "flower":
                 return Layer.STATIC_OBJECTS + 1;
-            case SKY:
+            case "sky", "sunHalo":
                 return Layer.BACKGROUND;
-            case NIGHT:
+            case "night":
                 return Layer.FOREGROUND;
-            case SUN:
+            case "sun":
                 return Layer.BACKGROUND;
-            case SUN_HALO:
-                return Layer.BACKGROUND;
-            case ENERGY:
+            case "energy":
                 return Layer.UI;
+            case "underGround":
+                return Layer.BACKGROUND;
             default:
-                throw new IllegalArgumentException("Invalid tag");
+                return Layer.DEFAULT;
         }
     }
 }
