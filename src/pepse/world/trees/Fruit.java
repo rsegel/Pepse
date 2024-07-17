@@ -32,7 +32,6 @@ public class Fruit extends GameObject {
         super.onCollisionEnter(other, collision);
         if (other.getTag().equals("avatar") && this.getTag().equals("fruit")) {
             this.renderer().setOpaqueness(0);
-            this.setTag("collectedFruit");
             new ScheduledTask(this,
                     CYCLE_LENGTH,
                     false, this::reAppear);

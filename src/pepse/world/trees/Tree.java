@@ -1,6 +1,7 @@
 package pepse.world.trees;
 
 import danogl.GameObject;
+import danogl.components.GameObjectPhysics;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
@@ -23,6 +24,8 @@ public class Tree extends GameObject{
         super(new Vector2(location.x(),location.y() - TREE_HEIGHT),
                 new Vector2(TREE_WIDTH, TREE_HEIGHT),
                 new RectangleRenderable(TREE_COLOR));
+        physics().preventIntersectionsFromDirection(Vector2.ZERO);
+        physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
         this.leaves = new ArrayList<>();
         this.fruits = new ArrayList<>();
         int leafSize = Leaf.getLeafSize();

@@ -21,7 +21,7 @@ import java.util.List;
 
 public class PepseGameManager extends GameManager {
 
-    private static final int skyLayer = Layer.BACKGROUND;
+    private static final int skyLayer = Layer.BACKGROUND - 1;
     private static final int NIGHT_LAYER = Layer.UI + 1; //TODO - consider
     private static final int CYCLE_DEFAULT = 30;
     private static final float OFFSIDE_AVATAR_Y = 200;
@@ -50,11 +50,11 @@ public class PepseGameManager extends GameManager {
             gameObjects().addGameObject(tree, Layer.STATIC_OBJECTS);
             List<Leaf> leaves = tree.getLeaves();
             for (Leaf leaf : leaves){
-                gameObjects().addGameObject(leaf, Layer.BACKGROUND);
+                gameObjects().addGameObject(leaf, Layer.FOREGROUND);
             }
             List<Fruit> fruits = tree.getFruits();
             for (Fruit fruit : fruits){
-                gameObjects().addGameObject(fruit);
+                gameObjects().addGameObject(fruit, Layer.STATIC_OBJECTS);
             }
         }
         GameObject sunHalo = SunHalo.create(sun);
