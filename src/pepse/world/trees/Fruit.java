@@ -5,6 +5,7 @@ import danogl.collisions.Collision;
 import danogl.components.ScheduledTask;
 import danogl.gui.rendering.OvalRenderable;
 import danogl.util.Vector2;
+import pepse.util.ColorSupplier;
 
 import java.awt.*;
 
@@ -45,7 +46,11 @@ public class Fruit extends GameObject {
 
     public Runnable avatarJumped() {
         return () -> {
-            this.renderer().setRenderable(new OvalRenderable(Color.PINK));
+            this.renderer().setRenderable(new OvalRenderable(randomFruitColor()));
         };
+    }
+
+    private Color randomFruitColor() {
+        return ColorSupplier.approximateColor(FRUIT_COLOR, 250);
     }
 }

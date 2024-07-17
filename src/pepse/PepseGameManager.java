@@ -37,6 +37,9 @@ public class PepseGameManager extends GameManager {
         gameObjects().addGameObject(sun, skyLayer);
         GameObject night = Night.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
         gameObjects().addGameObject(night, NIGHT_LAYER);
+        Vector2 avatarPositionTopLeft = new Vector2(0, Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
+        Avatar avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
+        gameObjects().addGameObject(avatar);
         List<Block> blockList = t.createInRange(1,1600);
         // TODO: add functionality to add only the top blocks in each column to a layer that supports collisions
         for (Block block : blockList) {
@@ -55,14 +58,12 @@ public class PepseGameManager extends GameManager {
             List<Fruit> fruits = tree.getFruits();
             for (Fruit fruit : fruits){
                 gameObjects().addGameObject(fruit, Layer.STATIC_OBJECTS);
+                avatar.addJumpObserver(fruit.avatarJumped());
             }
         }
         GameObject sunHalo = SunHalo.create(sun);
         gameObjects().addGameObject(sunHalo, skyLayer);
         // TODO: smart formula for the OFFSIDE_AVATAR_Y
-        Vector2 avatarPositionTopLeft = new Vector2(0, Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
-        Avatar avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
-        gameObjects().addGameObject(avatar);
         EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
         gameObjects().addGameObject(energyRenderer, Layer.UI);
 
