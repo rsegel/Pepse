@@ -17,6 +17,8 @@ import pepse.world.trees.Flora;
 import pepse.world.trees.Fruit;
 import pepse.world.trees.Leaf;
 import pepse.world.trees.Tree;
+
+import static pepse.LayerGetter.getLayer;
 import static pepse.world.Block.SIZE;
 
 import java.util.List;
@@ -57,7 +59,6 @@ public class PepseGameManager extends GameManager {
                 Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
         avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
         gameObjects().addGameObject(avatar);
-
         useTerrainToCreateGround(MIN_INIT_RANGE, MAX_INIT_RANGE);
         flora = new Flora();
         useFloraToCreateTrees(MIN_INIT_RANGE, MAX_INIT_RANGE);
@@ -119,10 +120,12 @@ public class PepseGameManager extends GameManager {
         if (minDisplayedX < minLegitX) {
             changeObjsInRange((int) (minDisplayedX - WORLD_BUFFER_FACTOR), (int) minDisplayedX);
             minLegitX = minLegitX - WORLD_BUFFER_FACTOR;
+            maxLegitX = maxLegitX - WORLD_BUFFER_FACTOR;
         }
         if (maxDisplayedX > maxLegitX) {
             changeObjsInRange((int) maxDisplayedX, (int) (maxDisplayedX + WORLD_BUFFER_FACTOR));
             maxLegitX = maxLegitX + WORLD_BUFFER_FACTOR;
+            minLegitX = minLegitX + WORLD_BUFFER_FACTOR;
         }
 
     }
@@ -143,7 +146,29 @@ public class PepseGameManager extends GameManager {
     }
 
     private void removeFromRightLayer(GameObject gameObject) {
+        //TODO - why do we need the switch?
         switch (gameObject.getTag()) {
+            case "topLayerBlock":
+                gameObjects().removeGameObject(gameObject, getLayer(gameObject.getTag()));
+                break;
+            case "tree":
+                gameObjects().removeGameObject(gameObject, getLayer(gameObject.getTag()));
+                break;
+            case "leaf":
+                gameObjects().removeGameObject(gameObject, getLayer(gameObject.getTag()));
+                break;
+            case "fruit":
+                gameObjects().removeGameObject(gameObject, getLayer(gameObject.getTag()));
+                break;
+            case "block":
+                gameObjects().removeGameObject(gameObject, getLayer(gameObject.getTag()));
+                break;
+            case "avatar", "energy":
+                // do nothing
+                break;
+            default:
+                gameObjects().removeGameObject(gameObject);
+
 
         }
     }

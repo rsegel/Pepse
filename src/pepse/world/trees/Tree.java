@@ -48,6 +48,7 @@ public class Tree extends GameObject{
                 }
             }
         }
+        this.setTag("tree");
     }
 
     public ArrayList<Leaf> getLeaves(){

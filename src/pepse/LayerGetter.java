@@ -7,14 +7,16 @@ public class LayerGetter {
         switch (tag) {
             case "avatar":
                 return Layer.DEFAULT;
-            case "ground":
+            case "block":
+                return Layer.BACKGROUND;
+            case "topLayerBlock":
                 return Layer.STATIC_OBJECTS;
             case "tree":
                 return Layer.STATIC_OBJECTS;
             case "fruit":
-                return Layer.STATIC_OBJECTS + 2;
-            case "flower":
-                return Layer.STATIC_OBJECTS + 1;
+                return Layer.STATIC_OBJECTS;
+            case "leaf":
+                return Layer.STATIC_OBJECTS;
             case "sky", "sunHalo":
                 return Layer.BACKGROUND;
             case "night":
@@ -23,8 +25,6 @@ public class LayerGetter {
                 return Layer.BACKGROUND;
             case "energy":
                 return Layer.UI;
-            case "underGround":
-                return Layer.BACKGROUND;
             default:
                 return Layer.DEFAULT;
         }
