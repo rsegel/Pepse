@@ -11,8 +11,15 @@ import danogl.gui.rendering.AnimationRenderable;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+// create enum for the different states of the avatar
+enum AvatarState {
+    IDLE,
+    RUN,
+    JUMP
+}
 
-public class Avatar extends GameObject {
+
+public class Avatar extends GameObject{
 
     static final String AVATAR_PATH = "assets/idle_0.png";
     private final ImageReader imagereader;
@@ -26,6 +33,7 @@ public class Avatar extends GameObject {
     private static final Vector2 AVATAR_SIZE = new Vector2(30, 50);
     private boolean isRight = true;
     private float TIME_BETWEEN_FRAMES = 0.2f;
+    private AvatarState state;
 
     private static final Color AVATAR_COLOR = Color.DARK_GRAY;
     private static final String[] AVATAR_RUN_PATHS = new String[]{
@@ -63,6 +71,7 @@ public class Avatar extends GameObject {
         transform().setAccelerationY(GRAVITY);
         energy = ENERGY_INIT;
         this.setTag("avatar");
+        this.state = AvatarState.IDLE;
     }
     // TODO: the animation is not changing between the different photos in the array
     @Override
@@ -72,31 +81,22 @@ public class Avatar extends GameObject {
         float xVel = 0;
         // check if the avatar is running and has enough energy
         if(inputListener.isKeyPressed(KeyEvent.VK_LEFT) && energy > ENERGY_LOSS_RUN){
-            xVel -= VELOCITY_X;
-            energy -= (float) ENERGY_LOSS_RUN;
-            toAddEnergy = false;
-            // set the renderable to AnimationRenderable
-            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS, imagereader, true, 0.1f));
-            if(isRight) {
-                renderer().setIsFlippedHorizontally(true);
-                isRight = false;
-            }
+            xVel = handleLeftMovement(xVel);
+
         } else if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT) && energy > ENERGY_LOSS_RUN) {
-            xVel += VELOCITY_X;
-            energy -= (float) ENERGY_LOSS_RUN;
-            toAddEnergy = false;
-            // set the renderable to AnimationRenderable
-            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
-            if (!isRight) {
-                renderer().setIsFlippedHorizontally(false);
-                isRight = true;
-            }
+            xVel = handleRightMovement(xVel);
         } else if (getVelocity().y() != 0) {
-            // set the renderable to AnimationRenderable
-            renderer().setRenderable(new AnimationRenderable(AVATAR_JUMP_PATHS, imagereader, false, TIME_BETWEEN_FRAMES));
+            // set the renderable to AnimationRenderable if the state is not JUMP
+            if (state != AvatarState.JUMP) {
+                renderer().setRenderable(new AnimationRenderable(AVATAR_JUMP_PATHS, imagereader, false, TIME_BETWEEN_FRAMES));
+                state = AvatarState.JUMP;
+            }
         } else {
-            // set the renderable to AnimationRenderable
-            renderer().setRenderable(new AnimationRenderable(AVATAR_IDLE_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
+            // set the renderable to AnimationRenderable if the state is not IDLE
+            if (state != AvatarState.IDLE) {
+                renderer().setRenderable(new AnimationRenderable(AVATAR_IDLE_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
+                state = AvatarState.IDLE;
+            }
 
         }
         transform().setVelocityX(xVel);
@@ -114,6 +114,9 @@ public class Avatar extends GameObject {
             energy += 1;
         }
     }
+    public float getEnergy() {
+        return  energy;
+    }
 
     public void addEnergy(float energy){
         this.energy += energy;
@@ -126,5 +129,34 @@ public class Avatar extends GameObject {
     @FunctionalInterface
     public interface StateMessage {
         boolean hasJumped();
+    }
+
+    private float handleLeftMovement(float xVel) {
+        xVel -= VELOCITY_X;
+        energy -= (float) ENERGY_LOSS_RUN;
+        // set the renderable to AnimationRenderable if the sta
+        if (state == AvatarState.IDLE) {
+            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
+            state = AvatarState.RUN;
+        }
+        if (isRight) {
+            renderer().setIsFlippedHorizontally(true);
+            isRight = false;
+        }
+        return xVel;
+    }
+
+    private float handleRightMovement(float xVel) {
+        xVel += VELOCITY_X;
+        energy -= (float) ENERGY_LOSS_RUN;
+        if (state == AvatarState.IDLE) {
+            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
+            state = AvatarState.RUN;
+        }
+        if (!isRight) {
+            renderer().setIsFlippedHorizontally(false);
+            isRight = true;
+        }
+        return xVel;
     }
 }

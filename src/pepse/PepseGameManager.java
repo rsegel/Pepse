@@ -61,10 +61,9 @@ public class PepseGameManager extends GameManager {
         Vector2 avatarPositionTopLeft = new Vector2(0, Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
         Avatar avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
         gameObjects().addGameObject(avatar);
+        EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
+        gameObjects().addGameObject(energyRenderer, Layer.UI);
 
-//        EnergyCallback energyCallback = avatar;
-//        EnergyRenderer energyRenderer = new EnergyRenderer(energyCallback);
-//        gameObjects().addGameObject(energyRenderer, Layer.UI);
 
 
 
