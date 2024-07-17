@@ -6,6 +6,8 @@ import pepse.world.Terrain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import static pepse.world.Block.SIZE;
+
 
 public class Flora {
 
@@ -16,7 +18,8 @@ public class Flora {
         List<Tree> trees = new ArrayList<>();
         for (int x = minX; x <= maxX; x += TREE_SPACEING){
             if (Math.random() > PROBABILITY_FOR_TREE) continue;
-            Vector2 location = new Vector2(x, Terrain.getGroundHeightAtX0());
+            float blockX = (float) (Math.floor(x / SIZE) * SIZE);
+            Vector2 location = new Vector2(blockX, Terrain.groundHeightAt(blockX));
             // TODO - correct for changing terrain
             trees.add(new Tree(location));
         }
