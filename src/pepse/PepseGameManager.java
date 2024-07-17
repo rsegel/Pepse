@@ -39,7 +39,8 @@ public class PepseGameManager extends GameManager {
         gameObjects().addGameObject(sun, skyLayer);
         GameObject night = Night.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
         gameObjects().addGameObject(night, NIGHT_LAYER);
-        Vector2 avatarPositionTopLeft = new Vector2(0, Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
+        Vector2 avatarPositionTopLeft = new Vector2(windowController.getWindowDimensions().x()/2,
+                Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
         Avatar avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
         gameObjects().addGameObject(avatar);
         List<Block> blockList = t.createInRange(1,1600);
@@ -55,7 +56,7 @@ public class PepseGameManager extends GameManager {
             gameObjects().addGameObject(tree, Layer.STATIC_OBJECTS);
             List<Leaf> leaves = tree.getLeaves();
             for (Leaf leaf : leaves){
-                gameObjects().addGameObject(leaf, Layer.FOREGROUND);
+                gameObjects().addGameObject(leaf, Layer.STATIC_OBJECTS);
             }
             List<Fruit> fruits = tree.getFruits();
             for (Fruit fruit : fruits){

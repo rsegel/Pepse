@@ -14,6 +14,7 @@ public class Fruit extends GameObject {
     private static final float FRUIT_SIZE = 15;
     private static final Color FRUIT_COLOR = new Color(255, 0, 0);
     private static final int CYCLE_LENGTH = 30; //TODO - unify with gameManager somehow
+    private static final int COLOR_DELTA = 150;
 
     public Fruit(Vector2 location) {
         super(location,
@@ -51,6 +52,6 @@ public class Fruit extends GameObject {
     }
 
     private Color randomFruitColor() {
-        return ColorSupplier.approximateColor(FRUIT_COLOR, 250);
+        return ColorSupplier.approximateColor(FRUIT_COLOR, COLOR_DELTA);
     }
 }

@@ -17,10 +17,9 @@ import static pepse.world.Block.SIZE;
 public class Terrain {
     private static final float DEFAULT_GROUND_FACTOR = (float) (2.0/3.0);
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
-    private static final double DEPTH_OF_BLOCKS = 20;
-    private static final double DEPTH_OF_BLOCKS1 = DEPTH_OF_BLOCKS;
-    private static final int DIST_BWTWEENBLOCKS = 30;
-    private static final double NOISE_FACTOR = 15;
+    private static final double DEPTH_OF_BLOCKS = 30;
+    private static final int DIST_BETWEEN_BLOCKS = 30;
+    private static final double NOISE_FACTOR = 10;
     private static NoiseGenerator p = null;
     static private float groundHeightAtX0;
     private static Map<Float, Float> groundHeights = new HashMap<>();
@@ -48,11 +47,11 @@ public class Terrain {
         List<Block> blocks = new ArrayList<>();
         // find the closest X that is a multiple of 30
         // it should be smaller than minX
-        int closestStartX = minX - (minX % DIST_BWTWEENBLOCKS);
-        int closestEndX = maxX + (DIST_BWTWEENBLOCKS - (maxX % DIST_BWTWEENBLOCKS));
-        for (int x = closestStartX; x < closestEndX; x += DIST_BWTWEENBLOCKS) {
+        int closestStartX = minX - (minX % DIST_BETWEEN_BLOCKS);
+        int closestEndX = maxX + (DIST_BETWEEN_BLOCKS - (maxX % DIST_BETWEEN_BLOCKS));
+        for (int x = closestStartX; x < closestEndX; x += DIST_BETWEEN_BLOCKS) {
             generateGroundHeight(x);
-            for (int i = 0; i < DEPTH_OF_BLOCKS1; i++) {
+            for (int i = 0; i < DEPTH_OF_BLOCKS; i++) {
                 boolean isTopLayer = i == 0;
                 // create a block at x, groundHeightAt(x)
                 Block block = new Block(
@@ -65,8 +64,6 @@ public class Terrain {
             }
         }
         return blocks;
-
-
 
     }
 
