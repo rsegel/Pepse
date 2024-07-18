@@ -1,5 +1,7 @@
 package pepse;
-
+/**
+    Enum for tags.
+*/
 public enum Tags {
     AVATAR,
     GROUND,
@@ -11,5 +13,11 @@ public enum Tags {
     NIGHT,
     SUN,
     SUN_HALO,
-    ENERGY
+    ENERGY,
+    LEAF,
+    COLLECTED_FRUIT,
+    UNKNOWN,
+    BLOCK,
+    TOP_LAYER_BLOCK
 }
+

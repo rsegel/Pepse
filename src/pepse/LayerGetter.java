@@ -1,29 +1,40 @@
 package pepse;
 
 import danogl.collisions.Layer;
+import pepse.world.TagsToNames;
 
+/**
+ * A class that gets the layer of a tag.
+ */
 public class LayerGetter {
-    public static int getLayer(String tag) {
+    /**
+     * Gets the layer of a tag.
+     * @param tag The tag to get the layer of.
+     * @return The layer of the tag.
+     */
+    public static int getLayer(Tags tag) {
         switch (tag) {
-            case "avatar":
+            case Tags.AVATAR:
                 return Layer.DEFAULT;
-            case "block":
+            case Tags.BLOCK:
                 return Layer.BACKGROUND;
-            case "topLayerBlock":
+            case Tags.TOP_LAYER_BLOCK:
                 return Layer.STATIC_OBJECTS;
-            case "tree":
+            case Tags.TREE:
                 return Layer.STATIC_OBJECTS;
-            case "fruit":
+            case Tags.FRUIT:
                 return Layer.STATIC_OBJECTS;
-            case "leaf":
+            case Tags.LEAF:
                 return Layer.STATIC_OBJECTS;
-            case "sky", "sunHalo":
+            case Tags.SKY:
                 return Layer.BACKGROUND;
-            case "night":
+            case Tags.NIGHT:
                 return Layer.FOREGROUND;
-            case "sun":
+            case Tags.SUN:
                 return Layer.BACKGROUND;
-            case "energy":
+            case Tags.ENERGY:
+                return Layer.UI;
+            case Tags.COLLECTED_FRUIT:
                 return Layer.UI;
             default:
                 return Layer.DEFAULT;
@@ -31,4 +42,28 @@ public class LayerGetter {
     }
 }
 
+//            case "avatar":
+//                return Layer.DEFAULT;
+//            case "block":
+//                return Layer.BACKGROUND;
+//            case "topLayerBlock":
+//                return Layer.STATIC_OBJECTS;
+//            case "tree":
+//                return Layer.STATIC_OBJECTS;
+//            case "fruit":
+//                return Layer.STATIC_OBJECTS;
+//            case "leaf":
+//                return Layer.STATIC_OBJECTS;
+//            case "sky", "sunHalo":
+//                return Layer.BACKGROUND;
+//            case "night":
+//                return Layer.FOREGROUND;
+//            case "sun":
+//                return Layer.BACKGROUND;
+//            case "energy":
+//                return Layer.UI;
+//            case "collectedFruit":
+//                return Layer.UI;
+//            default:
+//                return Layer.DEFAULT;
 

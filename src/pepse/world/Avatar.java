@@ -8,20 +8,29 @@ import danogl.gui.rendering.ImageRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import danogl.gui.rendering.AnimationRenderable;
+import pepse.Tags;
 import pepse.world.trees.AvatarJumpObserver;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-// create enum for the different states of the avatar
+/**
+ * The AvatarState enum represents the different states the avatar can be in.
+ * The avatar can be idle, running or jumping.
+ */
 enum AvatarState {
     IDLE,
     RUN,
     JUMP
 }
 
-
+/**
+ * The Avatar class represents the player's character in the game.
+ * The avatar can move left and right, jump and collect fruits.
+ * The avatar has a certain amount of energy that is consumed when moving or jumping.
+ * The avatar can collect fruits to gain energy.
+ */
 public class Avatar extends GameObject {
 
     static final String AVATAR_PATH = "assets/idle_0.png";
@@ -64,6 +73,13 @@ public class Avatar extends GameObject {
 
     private float energy;
 
+
+    /**
+     * Constructor for the Avatar class.
+     * @param topLeftCorner The top left corner of the avatar.
+     * @param inputListener The input listener that listens for key presses.
+     * @param imageReader The image reader that reads the images for the avatar.
+     */
     public Avatar(Vector2 topLeftCorner,
                   UserInputListener inputListener,
                   ImageReader imageReader) {
@@ -79,32 +95,14 @@ public class Avatar extends GameObject {
         this.state = AvatarState.IDLE;
     }
 
+
     @Override
     public void update(float deltaTime) {
-        boolean toAddEnergy = true;
         super.update(deltaTime);
         float xVel = 0;
-        // check if the avatar is running and has enough energy
-        if (inputListener.isKeyPressed(KeyEvent.VK_LEFT) && energy > ENERGY_LOSS_RUN) {
-            xVel = handleLeftMovement(xVel);
 
-        } else if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT) && energy > ENERGY_LOSS_RUN) {
-            xVel = handleRightMovement(xVel);
-        } else if (getVelocity().y() != 0) {
-            // set the renderable to AnimationRenderable if the state is not JUMP
-            if (state != AvatarState.JUMP) {
-                renderer().setRenderable(new AnimationRenderable(AVATAR_JUMP_PATHS, imagereader, false, TIME_BETWEEN_FRAMES));
-                state = AvatarState.JUMP;
-            }
-        } else {
-            // set the renderable to AnimationRenderable if the state is not IDLE
-            if (state != AvatarState.IDLE) {
-                renderer().setRenderable(new AnimationRenderable(AVATAR_IDLE_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
-                state = AvatarState.IDLE;
-            }
+        handleVelocity(xVel);
 
-        }
-        transform().setVelocityX(xVel);
         // TODO: how to handle jumping?
         if (inputListener.isKeyPressed(KeyEvent.VK_SPACE) &&
                 getVelocity().y() == 0 &&
@@ -116,14 +114,46 @@ public class Avatar extends GameObject {
         }
     }
 
+    private void handleVelocity(float xVel) {
+        // check if the avatar is running and has enough energy
+        if (inputListener.isKeyPressed(KeyEvent.VK_LEFT) && energy > ENERGY_LOSS_RUN) {
+            xVel = handleLeftMovement(xVel);
+        } else if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT) && energy > ENERGY_LOSS_RUN) {
+            xVel = handleRightMovement(xVel);
+        } else if (getVelocity().y() != 0) {
+            // set the renderable to AnimationRenderable if the state is not JUMP
+            if (state != AvatarState.JUMP) {
+                renderer().setRenderable(new AnimationRenderable(AVATAR_JUMP_PATHS,
+                        imagereader, false, TIME_BETWEEN_FRAMES));
+                state = AvatarState.JUMP;}
+        } else {
+            if (state != AvatarState.IDLE) {
+                renderer().setRenderable(new AnimationRenderable(AVATAR_IDLE_PATHS, imagereader,
+                        true, TIME_BETWEEN_FRAMES));
+                state = AvatarState.IDLE;
+            }
+        }
+        transform().setVelocityX(xVel);
+    }
+    /**
+     * Returns the energy of the avatar.
+     * @return The energy of the avatar.
+     */
     public float getEnergy() {
         return energy;
     }
-
+    /**
+     * Adds energy to the avatar.
+     * @param energy The energy to be added to the avatar.
+     */
+    // TODO: suspicious - why never used?
     public void addEnergy(float energy) {
         this.energy += energy;
     }
-
+    /**
+     * Adds an observer to the avatar.
+     * @param observer The observer to be added to the avatar.
+     */
     public void addJumpObserver(Runnable observer) {
         updateWhenJumping.add(observer);
     }
@@ -141,7 +171,8 @@ public class Avatar extends GameObject {
         energy -= (float) ENERGY_LOSS_RUN;
         // set the renderable to AnimationRenderable if the sta
         if (state == AvatarState.IDLE) {
-            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
+            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS,
+                    imagereader, true, TIME_BETWEEN_FRAMES));
             state = AvatarState.RUN;
         }
         if (isRight) {
@@ -155,7 +186,8 @@ public class Avatar extends GameObject {
         xVel += VELOCITY_X;
         energy -= (float) ENERGY_LOSS_RUN;
         if (state == AvatarState.IDLE) {
-            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS, imagereader, true, TIME_BETWEEN_FRAMES));
+            renderer().setRenderable(new AnimationRenderable(AVATAR_RUN_PATHS, imagereader,
+                    true, TIME_BETWEEN_FRAMES));
             state = AvatarState.RUN;
         }
         if (!isRight) {
@@ -167,12 +199,12 @@ public class Avatar extends GameObject {
 
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
-        if (other.getTag().equals("fruit")) {
+        if (other.getTag().equals(TagsToNames.getTagName(Tags.FRUIT))) {
             energy += FRUIT_ENERGY;
             if (energy > ENERGY_INIT) {
                 energy = ENERGY_INIT;
             }
-            other.setTag("collectedFruit");
+            other.setTag(TagsToNames.getTagName(Tags.COLLECTED_FRUIT));
         }
         super.onCollisionEnter(other, collision);
     }

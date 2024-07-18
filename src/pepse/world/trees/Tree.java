@@ -5,11 +5,16 @@ import danogl.components.GameObjectPhysics;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+import pepse.Tags;
 import pepse.util.ColorSupplier;
+import pepse.world.TagsToNames;
 
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Represents a tree in the game
+ */
 public class Tree extends GameObject{
 
     private static final float TREE_HEIGHT = 150;
@@ -20,9 +25,13 @@ public class Tree extends GameObject{
     private static final float TURN_WHEN_JUMPS = 90;
     private static final int TREE_COLOR_DELTA = 20;
     private static final Color BASE_TREE_COLOR = new Color(100, 50, 20);
-    private ArrayList<Leaf> leaves;
-    private ArrayList<Fruit> fruits;
-
+    private static final int TWO = 2;
+    private final ArrayList<Leaf> leaves;
+    private final ArrayList<Fruit> fruits;
+    /**
+     * Creates a tree at the given location
+     * @param location the location of the tree
+     */
     public Tree(Vector2 location){
         super(new Vector2(location.x(),location.y() - TREE_HEIGHT),
                 new Vector2(TREE_WIDTH, TREE_HEIGHT),
@@ -32,8 +41,13 @@ public class Tree extends GameObject{
         this.leaves = new ArrayList<>();
         this.fruits = new ArrayList<>();
         int leafSize = Leaf.getLeafSize();
-        int xOffset = (int) (leafSize * CANOPY_SIZE - TREE_WIDTH) / 2;
-        int yOffset = (int) (leafSize * CANOPY_SIZE) / 2;
+        int xOffset = (int) (leafSize * CANOPY_SIZE - TREE_WIDTH) / TWO;
+        int yOffset = (int) (leafSize * CANOPY_SIZE) / TWO;
+        setLeavesAndFruits(leafSize, xOffset, yOffset, location);
+        this.setTag(TagsToNames.getTagName(Tags.TREE));
+    }
+
+    private void setLeavesAndFruits(int leafSize, int xOffset, int yOffset, Vector2 location) {
         for (int i = 0; i < CANOPY_SIZE; i++){
             for (int j = 0; j < CANOPY_SIZE; j++){
                 Vector2 canopyLocation = new Vector2(
@@ -48,20 +62,29 @@ public class Tree extends GameObject{
                 }
             }
         }
-        this.setTag("tree");
     }
-
+    /**
+     * getter for the leaves of the tree
+     * @return the leaves of the tree
+     */
     public ArrayList<Leaf> getLeaves(){
         return this.leaves;
     }
-
+    /**
+     * getter for the fruits of the tree
+     * @return the fruits of the tree
+     */
     public ArrayList<Fruit> getFruits(){
         return this.fruits;
     }
-
+    /**
+     * Observer for the avatar jump
+     * @return the observer for the avatar jump
+     */
     public Runnable avatarJumped() {
         return () -> {
-            this.renderer().setRenderable(new RectangleRenderable(ColorSupplier.approximateColor(BASE_TREE_COLOR)));
+            this.renderer().setRenderable(new RectangleRenderable(
+                    ColorSupplier.approximateColor(BASE_TREE_COLOR)));
             for (Leaf leaf : this.leaves){
                 leaf.avatarJumped();
             }
