@@ -43,7 +43,7 @@ public class PepseGameManager extends GameManager {
     private Vector2 windowDimensions;
     private float minLegitX;
     private float maxLegitX;
-    private static final int NUM_OF_BLCK_FOR_BUFFER = 3;
+    private static final int NUM_OF_BLCK_FOR_BUFFER = 5;
     private static final float WORLD_BUFFER_FACTOR =  SIZE * NUM_OF_BLCK_FOR_BUFFER;
     private Terrain t;
     private Flora flora;
