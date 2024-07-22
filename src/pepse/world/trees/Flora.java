@@ -13,7 +13,6 @@ import static pepse.world.Block.SIZE;
  * Class for creating trees in the world at random locations
  */
 public class Flora {
-//TODO - abstract class?
     private static final int TREE_SPACEING = 80;
     private static final float PROBABILITY_FOR_TREE = 0.2f;
     private static final int RANDOM_SEED = 42;
@@ -24,7 +23,7 @@ public class Flora {
      * @param maxX the maximum x value for the trees
      * @return a list of trees
      */
-    public List<Tree> createInRange(int minX, int maxX) {
+    public static List<Tree> createInRange(int minX, int maxX) {
         List<Tree> trees = new ArrayList<>();
         for (int x = minX; x <= maxX; x += TREE_SPACEING){
             float blockX = (float) (Math.floor(x / SIZE) * SIZE);

@@ -93,7 +93,6 @@ public class PepseGameManager extends GameManager {
         gameObjects().addGameObject(night, getLayer(TagsToNames.getTag(night.getTag())));
         EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
         gameObjects().addGameObject(avatar, getLayer(TagsToNames.getTag(avatar.getTag())));
-        flora = new Flora();
         useFloraToCreateTrees(MIN_INIT_RANGE, MAX_INIT_RANGE);
         gameObjects().addGameObject(sunHalo, getLayer(TagsToNames.getTag(sunHalo.getTag())));
         // TODO: smart formula for the OFFSIDE_AVATAR_Y
@@ -102,7 +101,7 @@ public class PepseGameManager extends GameManager {
     }
 
     private void useFloraToCreateTrees(int minInitRange, int maxInitRange) {
-        List<Tree> treesList = flora.createInRange(minInitRange, maxInitRange);
+        List<Tree> treesList = Flora.createInRange(minInitRange, maxInitRange);
         for (Tree tree : treesList){
             gameObjects().addGameObject(tree, getLayer(TagsToNames.getTag(tree.getTag())));
             avatar.addJumpObserver(tree.avatarJumped());
