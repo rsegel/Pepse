@@ -47,7 +47,6 @@ public class PepseGameManager extends GameManager {
     private static final int NUM_OF_BLCK_FOR_BUFFER = 3;
     private static final float WORLD_BUFFER_FACTOR =  SIZE * NUM_OF_BLCK_FOR_BUFFER;
     private Terrain t;
-    private Flora flora;
     private Avatar avatar;
 
 
@@ -101,6 +100,8 @@ public class PepseGameManager extends GameManager {
     }
 
     private void useFloraToCreateTrees(int minInitRange, int maxInitRange) {
+        //minInitRange = minInitRange - minInitRange % SIZE;
+        //maxInitRange = maxInitRange - maxInitRange % SIZE;
         List<Tree> treesList = createInRange(minInitRange, maxInitRange);
         for (Tree tree : treesList){
             gameObjects().addGameObject(tree, getLayer(TagsToNames.getTag(tree.getTag())));
