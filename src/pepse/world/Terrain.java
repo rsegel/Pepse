@@ -24,6 +24,7 @@ public class Terrain {
     private static final double DEPTH_OF_BLOCKS = 30;
     private static final int DIST_BETWEEN_BLOCKS = 30;
     private static final double NOISE_FACTOR = 10;
+    private static final int NUM_OF_ADD = 3;
     private static NoiseGenerator p = null;
     static private float groundHeightAtX0;
     private static final Map<Float, Float> groundHeights = new HashMap<>();
@@ -70,7 +71,7 @@ public class Terrain {
         List<Block> blocks = new ArrayList<>();
         // find the closest X that is a multiple of 30
         // it should be smaller than minX
-        int closestStartX = minX - (minX % DIST_BETWEEN_BLOCKS);
+        int closestStartX = minX - (minX % DIST_BETWEEN_BLOCKS) - NUM_OF_ADD * SIZE;
         int closestEndX = maxX + (DIST_BETWEEN_BLOCKS - (maxX % DIST_BETWEEN_BLOCKS));
         for (int x = closestStartX; x < closestEndX; x += DIST_BETWEEN_BLOCKS) {
             generateGroundHeight(x);
