@@ -12,7 +12,7 @@ import static pepse.world.Block.SIZE;
 /**
  * Class for creating trees in the world at random locations
  */
-public class Flora {
+public class Flora{
     private static final int TREE_SPACING = 90;
     private static final float PROBABILITY_FOR_TREE = 0.2f;
     private static final int RANDOM_SEED = 42;

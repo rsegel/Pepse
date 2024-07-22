@@ -3,8 +3,8 @@ itaiweiss,roisegel
 
 trees package implementation:
 Classes:
-- Flora - a class containing a method for creating trees given a range
+- Flora - a class containing a method for creating trees given a range.
 - Tree - a class representing a tree. The tree itself is the tree trunk, and it has a list of leaves and a
 list of fruits.
-- Fruit - a class representing a fruit.
+- Fruit - a class representing a fruit. Fruits change color
 - Leaf - a class representing a leaf.
