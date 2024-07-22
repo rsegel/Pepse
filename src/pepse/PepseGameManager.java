@@ -79,13 +79,13 @@ public class PepseGameManager extends GameManager {
     private Vector2 createAndInsertObjects(WindowController windowController,
                                         ImageReader imageReader, UserInputListener inputListener) {
         GameObject sky = Sky.create(windowController.getWindowDimensions());
-        GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
         GameObject night = Night.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
-        GameObject sunHalo = SunHalo.create(sun);
         t = new Terrain(windowController.getWindowDimensions(), 0);
         Vector2 avatarPositionTopLeft = new Vector2(windowController.getWindowDimensions().x()/ TWO,
                 Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
         useTerrainToCreateGround(MIN_INIT_RANGE, MAX_INIT_RANGE);
+        GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
+        GameObject sunHalo = SunHalo.create(sun);
         avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
         // TODO - decide if ok, needed Terrain to be before Sun
         gameObjects().addGameObject(sky, getLayer(TagsToNames.getTag(sky.getTag())));
