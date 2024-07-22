@@ -4,11 +4,8 @@ package pepse;
 */
 public enum Tags {
     AVATAR,
-    GROUND,
-    UNDER_GROUND,
     TREE,
     FRUIT,
-    FLOWER,
     SKY,
     NIGHT,
     SUN,
@@ -16,8 +13,8 @@ public enum Tags {
     ENERGY,
     LEAF,
     COLLECTED_FRUIT,
-    UNKNOWN,
     BLOCK,
-    TOP_LAYER_BLOCK
+    TOP_LAYER_BLOCK,
+    UNKNOWN
 }
 

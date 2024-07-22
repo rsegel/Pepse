@@ -4,6 +4,8 @@ import danogl.GameObject;
 import danogl.components.CoordinateSpace;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
+import pepse.Tags;
+
 import java.awt.Color;
 import java.util.function.Supplier;
 
@@ -31,6 +33,8 @@ public class EnergyRenderer extends GameObject  {
         super(DEFAULT_POS_FOR_BAR, ENERGY_BAR_MAX_SIZE, new RectangleRenderable(ENERGY_BAR_COLOR));
         this.energyCallback = energyCallback;
         setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
+        setTag(TagsToNames.getTagName(Tags.ENERGY));
+
     }
 
     /**

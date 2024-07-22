@@ -32,10 +32,10 @@ import java.util.List;
  */
 public class PepseGameManager extends GameManager {
 
-    private static final int skyLayer = Layer.BACKGROUND - 1;
-    private static final int NIGHT_LAYER = Layer.UI + 1; //TODO - consider
+
+
     private static final int CYCLE_DEFAULT = 30;
-    private static final float OFFSIDE_AVATAR_Y = 200;
+    private static final float OFFSIDE_AVATAR_Y = 50;
     private static final int MIN_INIT_RANGE = 0;
     private static final int MAX_INIT_RANGE = 1600;
     private static final float HALF_FLOAT_FACTOR = 0.5f;
@@ -82,37 +82,37 @@ public class PepseGameManager extends GameManager {
         GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
         GameObject night = Night.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
         GameObject sunHalo = SunHalo.create(sun);
+        t = new Terrain(windowController.getWindowDimensions(), 0);
         Vector2 avatarPositionTopLeft = new Vector2(windowController.getWindowDimensions().x()/ TWO,
                 Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
-        avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
-        gameObjects().addGameObject(sky, skyLayer);
-        t = new Terrain(windowController.getWindowDimensions(), 0);
-        // TODO - decide if ok, needed Terrain to be before Sun
-        gameObjects().addGameObject(sun, skyLayer);
-        gameObjects().addGameObject(night, NIGHT_LAYER);
-        EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
-        gameObjects().addGameObject(avatar);
         useTerrainToCreateGround(MIN_INIT_RANGE, MAX_INIT_RANGE);
+        avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
+        // TODO - decide if ok, needed Terrain to be before Sun
+        gameObjects().addGameObject(sky, getLayer(TagsToNames.getTag(sky.getTag())));
+        gameObjects().addGameObject(sun, getLayer(TagsToNames.getTag(sun.getTag())));
+        gameObjects().addGameObject(night, getLayer(TagsToNames.getTag(night.getTag())));
+        EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
+        gameObjects().addGameObject(avatar, getLayer(TagsToNames.getTag(avatar.getTag())));
         flora = new Flora();
         useFloraToCreateTrees(MIN_INIT_RANGE, MAX_INIT_RANGE);
-        gameObjects().addGameObject(sunHalo, skyLayer);
+        gameObjects().addGameObject(sunHalo, getLayer(TagsToNames.getTag(sunHalo.getTag())));
         // TODO: smart formula for the OFFSIDE_AVATAR_Y
-        gameObjects().addGameObject(energyRenderer, Layer.UI);
+        gameObjects().addGameObject(energyRenderer, getLayer(TagsToNames.getTag(energyRenderer.getTag())));
         return avatarPositionTopLeft;
     }
 
     private void useFloraToCreateTrees(int minInitRange, int maxInitRange) {
         List<Tree> treesList = flora.createInRange(minInitRange, maxInitRange);
         for (Tree tree : treesList){
-            gameObjects().addGameObject(tree, Layer.STATIC_OBJECTS);
+            gameObjects().addGameObject(tree, getLayer(TagsToNames.getTag(tree.getTag())));
             avatar.addJumpObserver(tree.avatarJumped());
             List<Leaf> leaves = tree.getLeaves();
             for (Leaf leaf : leaves){
-                gameObjects().addGameObject(leaf, Layer.STATIC_OBJECTS);
+                gameObjects().addGameObject(leaf, getLayer(TagsToNames.getTag(leaf.getTag())));
             }
             List<Fruit> fruits = tree.getFruits();
             for (Fruit fruit : fruits){
-                gameObjects().addGameObject(fruit, Layer.STATIC_OBJECTS);
+                gameObjects().addGameObject(fruit, getLayer(TagsToNames.getTag(fruit.getTag())));
             }
         }
     }
@@ -120,9 +120,12 @@ public class PepseGameManager extends GameManager {
     private void useTerrainToCreateGround(int minRange,int maxRange) {
         List<Block> blockList = t.createInRange(minRange, maxRange);
         for (Block block : blockList) {
-            if (block.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK)))
-                gameObjects().addGameObject(block, Layer.STATIC_OBJECTS); // TODO: add to correct layer
-            else gameObjects().addGameObject(block, Layer.BACKGROUND);
+            if (block.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))) {
+                gameObjects().addGameObject(block, getLayer(TagsToNames.getTag(block.getTag())));
+            }
+            else {
+                gameObjects().addGameObject(block, getLayer(TagsToNames.getTag(block.getTag())));
+            }
         }
     }
     /**
