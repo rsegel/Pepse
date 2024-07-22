@@ -21,6 +21,8 @@ import pepse.world.trees.Tree;
 import static pepse.LayerGetter.getLayer;
 import static pepse.world.Block.SIZE;
 import static pepse.world.TagsToNames.getTag;
+import static pepse.world.trees.Flora.createInRange;
+
 import pepse.Tags;
 
 import java.util.List;
@@ -37,7 +39,6 @@ public class PepseGameManager extends GameManager {
     private static final int CYCLE_DEFAULT = 300;
     private static final float OFFSIDE_AVATAR_Y = 50;
     private static final int MIN_INIT_RANGE = 0;
-    private static final int MAX_INIT_RANGE = 1600;
     private static final float HALF_FLOAT_FACTOR = 0.5f;
     private static final int TWO = 2;
     private Vector2 windowDimensions;
@@ -83,7 +84,7 @@ public class PepseGameManager extends GameManager {
         t = new Terrain(windowController.getWindowDimensions(), 0);
         Vector2 avatarPositionTopLeft = new Vector2(windowController.getWindowDimensions().x()/ TWO,
                 Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
-        useTerrainToCreateGround(MIN_INIT_RANGE, MAX_INIT_RANGE);
+        useTerrainToCreateGround(MIN_INIT_RANGE, (int) windowDimensions.x());
         GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
         GameObject sunHalo = SunHalo.create(sun);
         avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
@@ -93,7 +94,7 @@ public class PepseGameManager extends GameManager {
         gameObjects().addGameObject(night, getLayer(TagsToNames.getTag(night.getTag())));
         EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
         gameObjects().addGameObject(avatar, getLayer(TagsToNames.getTag(avatar.getTag())));
-        useFloraToCreateTrees(MIN_INIT_RANGE, MAX_INIT_RANGE);
+        useFloraToCreateTrees(MIN_INIT_RANGE, (int) windowDimensions.x());
         gameObjects().addGameObject(sunHalo, getLayer(TagsToNames.getTag(sunHalo.getTag())));
         // TODO: smart formula for the OFFSIDE_AVATAR_Y
         gameObjects().addGameObject(energyRenderer, getLayer(TagsToNames.getTag(energyRenderer.getTag())));
@@ -101,7 +102,7 @@ public class PepseGameManager extends GameManager {
     }
 
     private void useFloraToCreateTrees(int minInitRange, int maxInitRange) {
-        List<Tree> treesList = Flora.createInRange(minInitRange, maxInitRange);
+        List<Tree> treesList = createInRange(minInitRange, maxInitRange);
         for (Tree tree : treesList){
             gameObjects().addGameObject(tree, getLayer(TagsToNames.getTag(tree.getTag())));
             avatar.addJumpObserver(tree.avatarJumped());
