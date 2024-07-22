@@ -58,6 +58,7 @@ public class Terrain {
      * @return The height of the ground at the specified x coordinate.
      */
     public static float groundHeightAt(float x) {
+        x = (float) (Math.floor(x / SIZE) * SIZE);
         return groundHeights.get(x);
     }
 

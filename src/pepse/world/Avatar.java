@@ -4,27 +4,13 @@ import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
-import danogl.gui.rendering.ImageRenderable;
-import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import danogl.gui.rendering.AnimationRenderable;
-import pepse.LayerGetter;
 import pepse.Tags;
-import pepse.world.trees.AvatarJumpObserver;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
-/**
- * The AvatarState enum represents the different states the avatar can be in.
- * The avatar can be idle, running or jumping.
- */
-enum AvatarState {
-    IDLE,
-    RUN,
-    JUMP
-}
 
 /**
  * The Avatar class represents the player's character in the game.
@@ -103,10 +89,7 @@ public class Avatar extends GameObject {
     public void update(float deltaTime) {
         super.update(deltaTime);
         float xVel = 0;
-
         handleVelocity(xVel);
-
-        // TODO: how to handle jumping?
         if (inputListener.isKeyPressed(KeyEvent.VK_SPACE) &&
                 getVelocity().y() == 0 &&
                 energy > ENERGY_LOSS_JUMP) {
@@ -145,14 +128,7 @@ public class Avatar extends GameObject {
     public float getEnergy() {
         return energy;
     }
-    /**
-     * Adds energy to the avatar.
-     * @param energy The energy to be added to the avatar.
-     */
-    // TODO: suspicious - why never used?
-    public void addEnergy(float energy) {
-        this.energy += energy;
-    }
+
     /**
      * Adds an observer to the avatar.
      * @param observer The observer to be added to the avatar.

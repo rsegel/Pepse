@@ -34,13 +34,16 @@ import java.util.List;
  */
 public class PepseGameManager extends GameManager {
 
-
-
-    private static final int CYCLE_DEFAULT = 300;
-    private static final float OFFSIDE_AVATAR_Y = 50;
+    /**
+     * The default cycle length for the game.
+     */
+    public static final int CYCLE_DEFAULT = 30;
     private static final int MIN_INIT_RANGE = 0;
     private static final float HALF_FLOAT_FACTOR = 0.5f;
     private static final int TWO = 2;
+    private static final float THREE = 3.0f;
+    private static final int SEED = 10;
+    private static final float AVATAR_Y_FACTOR = 1.5f;
     private Vector2 windowDimensions;
     private float minLegitX;
     private float maxLegitX;
@@ -61,12 +64,10 @@ public class PepseGameManager extends GameManager {
     public void initializeGame(ImageReader imageReader, SoundReader soundReader,
                                UserInputListener inputListener, WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
-//        windowController.setTargetFramerate(10);
         windowDimensions = windowController.getWindowDimensions();
         minLegitX = - WORLD_BUFFER_FACTOR;
         maxLegitX = windowDimensions.x() + WORLD_BUFFER_FACTOR;
         Vector2 avatarPositionTopLeft = createAndInsertObjects(windowController, imageReader, inputListener);
-        // windowController.getWindowDimensions().mult(0.5f) - initialAvatarLocation
         Vector2 dist_vector = new Vector2(
                 windowController.getWindowDimensions().x() * HALF_FLOAT_FACTOR - avatarPositionTopLeft.x(),
                 windowController.getWindowDimensions().y() * HALF_FLOAT_FACTOR - avatarPositionTopLeft.y()
@@ -80,10 +81,10 @@ public class PepseGameManager extends GameManager {
                                         ImageReader imageReader, UserInputListener inputListener) {
         GameObject sky = Sky.create(windowController.getWindowDimensions());
         GameObject night = Night.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
-        t = new Terrain(windowController.getWindowDimensions(), 0);
-        Vector2 avatarPositionTopLeft = new Vector2(windowController.getWindowDimensions().x()/ TWO,
-                Terrain.getGroundHeightAtX0()-OFFSIDE_AVATAR_Y);
+        t = new Terrain(windowController.getWindowDimensions(), SEED);
         useTerrainToCreateGround(MIN_INIT_RANGE, (int) windowDimensions.x());
+        Vector2 avatarPositionTopLeft = new Vector2(windowController.getWindowDimensions().x()/ TWO,
+                Terrain.groundHeightAt(windowController.getWindowDimensions().x()) / AVATAR_Y_FACTOR);
         GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
         GameObject sunHalo = SunHalo.create(sun);
         avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
@@ -94,14 +95,11 @@ public class PepseGameManager extends GameManager {
         gameObjects().addGameObject(avatar, getLayer(TagsToNames.getTag(avatar.getTag())));
         useFloraToCreateTrees(MIN_INIT_RANGE, (int) windowDimensions.x());
         gameObjects().addGameObject(sunHalo, getLayer(TagsToNames.getTag(sunHalo.getTag())));
-        // TODO: smart formula for the OFFSIDE_AVATAR_Y
         gameObjects().addGameObject(energyRenderer, getLayer(TagsToNames.getTag(energyRenderer.getTag())));
         return avatarPositionTopLeft;
     }
 
     private void useFloraToCreateTrees(int minInitRange, int maxInitRange) {
-        //minInitRange = minInitRange - minInitRange % SIZE;
-        //maxInitRange = maxInitRange - maxInitRange % SIZE;
         List<Tree> treesList = createInRange(minInitRange, maxInitRange);
         for (Tree tree : treesList){
             gameObjects().addGameObject(tree, getLayer(TagsToNames.getTag(tree.getTag())));

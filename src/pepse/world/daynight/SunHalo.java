@@ -29,7 +29,6 @@ public class SunHalo {
         GameObject halo = new GameObject(
                 // put the halo around the sun
                 getHaloPosition(sun),
-                // TODO: using the sun's diameter as the halo's diameter from the sun's class, is this correct?
                 new Vector2(getSunDim() * HALO_FACTOR, getSunDim() * HALO_FACTOR),
                 new OvalRenderable(sunHaloColor)
         );

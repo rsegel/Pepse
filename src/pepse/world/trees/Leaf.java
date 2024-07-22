@@ -5,7 +5,9 @@ import danogl.components.ScheduledTask;
 import danogl.components.Transition;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
+import pepse.Tags;
 import pepse.util.ColorSupplier;
+import pepse.world.TagsToNames;
 
 import java.awt.*;
 /**
@@ -26,7 +28,7 @@ public class Leaf extends GameObject {
         super(location,
                 new Vector2(LEAF_SIZE, LEAF_SIZE),
                 new RectangleRenderable(ColorSupplier.approximateColor(BASE_LEAF_COLOR)));
-        this.setTag("leaf");
+        this.setTag(TagsToNames.getTagName(Tags.LEAF));
         float waitTime = (float) (Math.random());
         new ScheduledTask(this,
                 waitTime,
@@ -41,7 +43,7 @@ public class Leaf extends GameObject {
     }
     @Override
     public boolean shouldCollideWith(GameObject other) {
-        if (other.getTag().equals("leaf") || other.getTag().equals("fruit"))
+        if (other.getTag().equals(TagsToNames.getTagName(Tags.LEAF)) || other.getTag().equals(TagsToNames.getTagName(Tags.FRUIT)))
             return false;
         return(super.shouldCollideWith(other));
     }

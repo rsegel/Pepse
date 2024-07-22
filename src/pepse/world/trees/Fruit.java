@@ -1,13 +1,16 @@
 package pepse.world.trees;
 
+import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.components.ScheduledTask;
 import danogl.gui.rendering.OvalRenderable;
 import danogl.util.Vector2;
+import pepse.PepseGameManager;
 import pepse.Tags;
 import pepse.util.ColorSupplier;
 import pepse.world.TagsToNames;
+import static pepse.PepseGameManager.CYCLE_DEFAULT;
 
 import java.awt.*;
 /**
@@ -17,7 +20,7 @@ public class Fruit extends GameObject{
 
     private static final float FRUIT_SIZE = 15;
     private static final Color FRUIT_COLOR = new Color(255, 0, 0);
-    private static final int CYCLE_LENGTH = 30; //TODO - unify with gameManager somehow
+    private static final int CYCLE_LENGTH = CYCLE_DEFAULT;
     private static final int FRUIT_COLOR_DELTA = 150;
     /**
      * Create a fruit at a location

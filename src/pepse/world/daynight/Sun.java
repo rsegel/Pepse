@@ -31,9 +31,6 @@ public class Sun {
      */
     public static GameObject create(Vector2 windowDimensions,
                                     float cycleLength) {
-        // we create the sun in the center of X axis and the middle of the sky in Y axis,
-        // using the OvalRendrable class to draw the sun.
-        // TODO: sure?
         GameObject sun = createSun(windowDimensions);
         sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         sun.setTag(TagsToNames.getTagName(Tags.SUN));
@@ -60,7 +57,7 @@ public class Sun {
         return new GameObject(
                 new Vector2(windowDimensions.x() / TWO,
                         (windowDimensions.y() - Terrain.getGroundHeightAtX0()) / TWO),
-                new Vector2(SUN_DIM, SUN_DIM), // TODO: sun's real dims
+                new Vector2(SUN_DIM, SUN_DIM),
                 new OvalRenderable(Color.YELLOW)
         );
     }

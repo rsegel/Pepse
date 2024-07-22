@@ -4,7 +4,7 @@ import pepse.Tags;
 /**
  * A class that converts tags to names.
  */
-public class TagsToNames {
+public abstract class TagsToNames {
     /**
      * Converts a tag to a name.
      * @param tag The tag to convert.
@@ -40,6 +40,11 @@ public class TagsToNames {
                 return "unknown";
         }
     }
+    /**
+     * Converts a name to a tag.
+     * @param name The name to convert.
+     * @return The tag of the name.
+     */
     public static Tags getTag(String name) {
         switch (name) {
             case "avatar":
