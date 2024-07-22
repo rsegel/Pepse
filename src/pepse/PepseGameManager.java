@@ -87,7 +87,6 @@ public class PepseGameManager extends GameManager {
         GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
         GameObject sunHalo = SunHalo.create(sun);
         avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
-        // TODO - decide if ok, needed Terrain to be before Sun
         gameObjects().addGameObject(sky, getLayer(TagsToNames.getTag(sky.getTag())));
         gameObjects().addGameObject(sun, getLayer(TagsToNames.getTag(sun.getTag())));
         gameObjects().addGameObject(night, getLayer(TagsToNames.getTag(night.getTag())));
