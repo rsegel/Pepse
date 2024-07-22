@@ -72,7 +72,7 @@ public class Terrain {
         // find the closest X that is a multiple of 30
         // it should be smaller than minX
         int closestStartX = minX - (minX % DIST_BETWEEN_BLOCKS) - NUM_OF_ADD * SIZE;
-        int closestEndX = maxX + (DIST_BETWEEN_BLOCKS - (maxX % DIST_BETWEEN_BLOCKS));
+        int closestEndX = maxX + (DIST_BETWEEN_BLOCKS - (maxX % DIST_BETWEEN_BLOCKS)) + NUM_OF_ADD * SIZE;
         for (int x = closestStartX; x < closestEndX; x += DIST_BETWEEN_BLOCKS) {
             generateGroundHeight(x);
             createBlocksAtX(x, blocks);
