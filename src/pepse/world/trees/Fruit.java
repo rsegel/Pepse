@@ -34,7 +34,6 @@ public class Fruit extends GameObject{
     }
     /**
      * makes sure that the fruit does not collide with other fruit or leaves
-
      */
     @Override
     public boolean shouldCollideWith(GameObject other) {
