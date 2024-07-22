@@ -168,7 +168,12 @@ public class PepseGameManager extends GameManager {
         for (GameObject gameObject : gameObjects()) {
             // remove all objects that are not visible
             if (gameObject.getCenter().x() < minLegitX || gameObject.getCenter().x() > maxLegitX) {
-                removeFromRightLayer(gameObject);
+                if(gameObject.getTag().equals(TagsToNames.getTagName(Tags.TREE)) ||
+                        gameObject.getTag().equals(TagsToNames.getTagName(Tags.BLOCK)) ||
+                        gameObject.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))||
+                        gameObject.getTag().equals(TagsToNames.getTagName(Tags.LEAF))){
+                    removeFromRightLayer(gameObject);
+                }
             }
         }
     }
