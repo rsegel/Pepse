@@ -11,7 +11,8 @@ import java.awt.*;
  * A class that represents the sky in the game.
  */
 public class Sky {
-    private static final Color BASIC_SKY_COLOR = Color.decode("#80C6E5");
+    private static final Color DECODE = Color.decode("#80C6E5");
+    private static final Color BASIC_SKY_COLOR = DECODE;
     /**
      * Creates a new sky object with the specified window dimensions.
      * @param windowDimensions The dimensions of the window.
