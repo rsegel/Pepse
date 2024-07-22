@@ -4,6 +4,8 @@ import danogl.GameObject;
 import danogl.components.GameObjectPhysics;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+import pepse.LayerGetter;
+import pepse.Tags;
 
 /**
  * A block is a simple immovable object that can be used to create walls or floors.
@@ -23,9 +25,9 @@ public class Block extends GameObject {
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
         if (isTopLayer) {
-            setTag("topLayerBlock");
+            setTag(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK));
         } else {
-            setTag("block");
+            setTag(TagsToNames.getTagName(Tags.BLOCK));
         }
     }
 

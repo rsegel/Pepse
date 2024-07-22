@@ -13,66 +13,58 @@ public class TagsToNames {
     public static String getTagName(Tags tag) {
         switch (tag) {
             case AVATAR:
-                return "Avatar";
-            case GROUND:
-                return "Ground";
-            case UNDER_GROUND:
-                return "Under Ground";
+                return "avatar";
             case TREE:
-                return "Tree";
+                return "tree";
             case FRUIT:
-                return "Fruit";
-            case FLOWER:
-                return "Flower";
+                return "fruit";
             case SKY:
-                return "Sky";
+                return "sky";
             case NIGHT:
-                return "Night";
+                return "night";
             case SUN:
-                return "Sun";
+                return "sun";
             case SUN_HALO:
-                return "Sun Halo";
+                return "sun halo";
             case ENERGY:
-                return "Energy";
+                return "energy";
             case LEAF:
-                return "Leaf";
+                return "leaf";
             case COLLECTED_FRUIT:
-                return "Collected Fruit";
+                return "collected fruit";
+            case BLOCK:
+                return "block";
+            case TOP_LAYER_BLOCK:
+                return "top layer block";
             default:
-                return "Unknown";
+                return "unknown";
         }
     }
     public static Tags getTag(String name) {
         switch (name) {
-            case "Avatar":
+            case "avatar":
                 return Tags.AVATAR;
-            case "Ground":
-                return Tags.GROUND;
-            case "Under Ground":
-                return Tags.UNDER_GROUND;
-            case "Tree":
+            case "tree":
                 return Tags.TREE;
-            case "Fruit":
+            case "fruit":
                 return Tags.FRUIT;
-            case "Flower":
-                return Tags.FLOWER;
-            case "Sky":
+            case "sky":
                 return Tags.SKY;
-            case "Night":
+            case "night":
                 return Tags.NIGHT;
-            case "Sun":
+            case "sun":
                 return Tags.SUN;
-            case "Sun Halo":
+            case "sun halo":
                 return Tags.SUN_HALO;
-            case "Energy":
+            case "energy":
                 return Tags.ENERGY;
-            case "Leaf":
+            case "leaf":
                 return Tags.LEAF;
-            case "Collected Fruit":
+            case "collected fruit":
                 return Tags.COLLECTED_FRUIT;
-            case "Block":
+            case "block":
                 return Tags.BLOCK;
-            case "Top Layer Block":
+            case "top layer block":
                 return Tags.TOP_LAYER_BLOCK;
             default:
                 return Tags.UNKNOWN;

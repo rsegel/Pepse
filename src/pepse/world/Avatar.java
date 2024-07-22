@@ -8,6 +8,7 @@ import danogl.gui.rendering.ImageRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import danogl.gui.rendering.AnimationRenderable;
+import pepse.LayerGetter;
 import pepse.Tags;
 import pepse.world.trees.AvatarJumpObserver;
 
@@ -91,8 +92,10 @@ public class Avatar extends GameObject {
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         transform().setAccelerationY(GRAVITY);
         energy = ENERGY_INIT;
-        this.setTag("avatar");
+        this.setTag(TagsToNames.getTagName(Tags.AVATAR));
         this.state = AvatarState.IDLE;
+        renderer().setRenderable(new AnimationRenderable(AVATAR_IDLE_PATHS, imagereader,
+                true, TIME_BETWEEN_FRAMES));
     }
 
 
@@ -205,6 +208,9 @@ public class Avatar extends GameObject {
                 energy = ENERGY_INIT;
             }
             other.setTag(TagsToNames.getTagName(Tags.COLLECTED_FRUIT));
+        }
+        if (other.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))) {
+            transform().setVelocityY(0);
         }
         super.onCollisionEnter(other, collision);
     }
