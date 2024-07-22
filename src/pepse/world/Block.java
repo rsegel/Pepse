@@ -4,7 +4,6 @@ import danogl.GameObject;
 import danogl.components.GameObjectPhysics;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
-import pepse.LayerGetter;
 import pepse.Tags;
 
 /**

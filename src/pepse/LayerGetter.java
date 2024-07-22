@@ -1,7 +1,6 @@
 package pepse;
 
 import danogl.collisions.Layer;
-import pepse.world.TagsToNames;
 
 /**
  * A class that gets the layer of a tag.

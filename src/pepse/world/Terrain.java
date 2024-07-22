@@ -24,7 +24,7 @@ public class Terrain {
     private static final double DEPTH_OF_BLOCKS = 30;
     private static final int DIST_BETWEEN_BLOCKS = 30;
     private static final double NOISE_FACTOR = 10;
-    private static final int NUM_OF_ADD = 3;
+    private static final int NUM_OF_ADD = 2;
     private static NoiseGenerator p = null;
     static private float groundHeightAtX0;
     private static final Map<Float, Float> groundHeights = new HashMap<>();

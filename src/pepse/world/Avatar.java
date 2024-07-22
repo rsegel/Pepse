@@ -8,7 +8,6 @@ import danogl.util.Vector2;
 import danogl.gui.rendering.AnimationRenderable;
 import pepse.Tags;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -20,23 +19,16 @@ import java.util.ArrayList;
  */
 public class Avatar extends GameObject {
 
-    static final String AVATAR_PATH = "assets/idle_0.png";
+    private static final String AVATAR_PATH = "assets/idle_0.png";
     private static final float FRUIT_ENERGY = 10;
-    private final ImageReader imagereader;
     private static final int ENERGY_LOSS_JUMP = 10;
     private static final double ENERGY_LOSS_RUN = 0.5;
-    final UserInputListener inputListener;
+    private final UserInputListener inputListener;
     private static final float VELOCITY_X = 400;
     private static final float ENERGY_INIT = 100;
     private static final float VELOCITY_Y = -650;
     private static final float GRAVITY = 600;
     private static final Vector2 AVATAR_SIZE = new Vector2(30, 50);
-    private boolean isRight = true;
-    private float TIME_BETWEEN_FRAMES = 0.2f;
-    private AvatarState state;
-    private ArrayList<Runnable> updateWhenJumping = new ArrayList<Runnable>();
-
-    private static final Color AVATAR_COLOR = Color.DARK_GRAY;
     private static final String[] AVATAR_RUN_PATHS = new String[]{
             "assets/run_0.png",
             "assets/run_1.png",
@@ -45,6 +37,7 @@ public class Avatar extends GameObject {
             "assets/run_4.png",
             "assets/run_5.png"
     };
+
     private static final String[] AVATAR_JUMP_PATHS = new String[]{
             "assets/jump_0.png",
             "assets/jump_1.png",
@@ -58,6 +51,11 @@ public class Avatar extends GameObject {
             "assets/idle_3.png"
     };
 
+    private boolean isRight = true;
+    private final ImageReader imagereader;
+    private final float TIME_BETWEEN_FRAMES = 0.2f;
+    private AvatarState state;
+    private final ArrayList<Runnable> updateWhenJumping = new ArrayList<>();
     private float energy;
 
 
@@ -175,7 +173,11 @@ public class Avatar extends GameObject {
         }
         return xVel;
     }
-
+    /**
+     * When the avatar collides with a fruit, the avatar gains energy.
+     * @param other The object that the avatar collided with.
+     * @param collision The collision that occurred.
+     */
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         if (other.getTag().equals(TagsToNames.getTagName(Tags.FRUIT))) {

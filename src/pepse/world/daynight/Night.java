@@ -25,7 +25,8 @@ public class Night {
      * @return the night object
      */
     public static GameObject create(Vector2 windowDimensions, float cycleLength) {
-        GameObject night = new GameObject(Vector2.ZERO, windowDimensions, new RectangleRenderable(Color.BLACK));
+        GameObject night = new GameObject(Vector2.ZERO, windowDimensions,
+                new RectangleRenderable(Color.BLACK));
         night.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         night.setTag(TagsToNames.getTagName(pepse.Tags.NIGHT));
         new Transition<Float>(night,

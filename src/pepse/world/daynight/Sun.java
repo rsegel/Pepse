@@ -6,7 +6,6 @@ import danogl.util.Vector2;
 import danogl.gui.rendering.OvalRenderable;
 import java.awt.*;
 import danogl.components.CoordinateSpace;
-import pepse.LayerGetter;
 import pepse.Tags;
 import pepse.world.TagsToNames;
 import pepse.world.Terrain;

@@ -2,7 +2,6 @@ package pepse;
 
 import danogl.GameManager;
 import danogl.GameObject;
-import danogl.collisions.Layer;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
@@ -13,17 +12,14 @@ import pepse.world.*;
 import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
 import pepse.world.daynight.SunHalo;
-import pepse.world.trees.Flora;
 import pepse.world.trees.Fruit;
 import pepse.world.trees.Leaf;
 import pepse.world.trees.Tree;
 
 import static pepse.LayerGetter.getLayer;
 import static pepse.world.Block.SIZE;
-import static pepse.world.TagsToNames.getTag;
 import static pepse.world.trees.Flora.createInRange;
 
-import pepse.Tags;
 
 import java.util.List;
 
@@ -41,7 +37,6 @@ public class PepseGameManager extends GameManager {
     private static final int MIN_INIT_RANGE = 0;
     private static final float HALF_FLOAT_FACTOR = 0.5f;
     private static final int TWO = 2;
-    private static final float THREE = 3.0f;
     private static final int SEED = 10;
     private static final float AVATAR_Y_FACTOR = 1.5f;
     private Vector2 windowDimensions;
@@ -158,8 +153,8 @@ public class PepseGameManager extends GameManager {
 
     private void changeObjsInRange(int min, int max) {
         deleteNonVisibleObjects();
-        useTerrainToCreateGround((int) min, (int) max);
-        useFloraToCreateTrees((int) min, (int) max);
+        useTerrainToCreateGround(min, max);
+        useFloraToCreateTrees(min, max);
     }
 
     private void deleteNonVisibleObjects() {

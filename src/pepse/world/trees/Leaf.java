@@ -36,14 +36,15 @@ public class Leaf extends GameObject {
     }
 
     private void wobbleLeaf() {
-        new Transition<Float>(this,
+        new Transition<>(this,
                 this.renderer()::setRenderableAngle,
                 -ROTATION_ANGLE, ROTATION_ANGLE, Transition.LINEAR_INTERPOLATOR_FLOAT,
                 CYCLE_LENGTH, Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
     @Override
     public boolean shouldCollideWith(GameObject other) {
-        if (other.getTag().equals(TagsToNames.getTagName(Tags.LEAF)) || other.getTag().equals(TagsToNames.getTagName(Tags.FRUIT)))
+        if (other.getTag().equals(TagsToNames.getTagName(Tags.LEAF)) ||
+                other.getTag().equals(TagsToNames.getTagName(Tags.FRUIT)))
             return false;
         return(super.shouldCollideWith(other));
     }
@@ -59,8 +60,8 @@ public class Leaf extends GameObject {
      */
     public void avatarJumped() {
         float current_angle = this.renderer().getRenderableAngle();
-        new Transition<Float>(this,
-                (Float angle)->{this.renderer().setRenderableAngle(angle);} , current_angle,
+        new Transition<>(this,
+                (Float angle) -> this.renderer().setRenderableAngle(angle), current_angle,
                 current_angle + DEG_CHANGE_ON_JUMP,
                 Transition.LINEAR_INTERPOLATOR_FLOAT,
                 JUMP_TIME, Transition.TransitionType.TRANSITION_ONCE, null);

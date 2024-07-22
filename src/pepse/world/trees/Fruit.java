@@ -1,12 +1,10 @@
 package pepse.world.trees;
 
-import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.components.ScheduledTask;
 import danogl.gui.rendering.OvalRenderable;
 import danogl.util.Vector2;
-import pepse.PepseGameManager;
 import pepse.Tags;
 import pepse.util.ColorSupplier;
 import pepse.world.TagsToNames;
@@ -34,7 +32,8 @@ public class Fruit extends GameObject{
     }
     /**
      * makes sure that the fruit does not collide with other fruit or leaves
-
+     * @param other the object to check for collision with
+     * @return true if the object is not a leaf or fruit
      */
     @Override
     public boolean shouldCollideWith(GameObject other) {
@@ -64,7 +63,9 @@ public class Fruit extends GameObject{
         this.renderer().setOpaqueness(1);
         this.setTag(TagsToNames.getTagName(Tags.FRUIT));
     }
-
+    /**
+     * Method to be called when the avatar jumps using the observer pattern
+     */
     public void avatarJumped() {
         this.renderer().setRenderable(new OvalRenderable(randomFruitColor()));
     }

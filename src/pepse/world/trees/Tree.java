@@ -3,7 +3,6 @@ package pepse.world.trees;
 import danogl.GameObject;
 import danogl.components.GameObjectPhysics;
 import danogl.gui.rendering.RectangleRenderable;
-import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.Tags;
 import pepse.util.ColorSupplier;
@@ -28,7 +27,7 @@ public class Tree extends GameObject{
     private static final int TWO = 2;
     private final ArrayList<Leaf> leaves;
     private final ArrayList<Fruit> fruits;
-    private Random random;
+    private final Random random;
     /**
      * Creates a tree at the given location
      * @param location the location of the tree
