@@ -1,0 +1,9 @@
+itaiweiss,roisegel
+206842866,209345834
+
+trees package implementation:
+Classes:
+- Flora - an abstract class that is used to generate trees over the terrain
+- Tree
+- Fruit
+- Leaf

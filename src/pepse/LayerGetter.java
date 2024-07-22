@@ -6,7 +6,7 @@ import pepse.world.TagsToNames;
 /**
  * A class that gets the layer of a tag.
  */
-public abstract class LayerGetter {
+public class LayerGetter {
     private static final int skyLayer = Layer.BACKGROUND - 1;
     private static final int NIGHT_LAYER = Layer.UI + 1;
     private static final int UNDERGROUND_LAYER = Layer.BACKGROUND + 1;
