@@ -170,8 +170,7 @@ public class PepseGameManager extends GameManager {
             if (gameObject.getCenter().x() < minLegitX || gameObject.getCenter().x() > maxLegitX) {
                 if(gameObject.getTag().equals(TagsToNames.getTagName(Tags.TREE)) ||
                         gameObject.getTag().equals(TagsToNames.getTagName(Tags.BLOCK)) ||
-                        gameObject.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))||
-                        gameObject.getTag().equals(TagsToNames.getTagName(Tags.LEAF))){
+                        gameObject.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))){
                     removeFromRightLayer(gameObject);
                 }
             }
@@ -182,6 +181,15 @@ public class PepseGameManager extends GameManager {
         String tag = gameObject.getTag();
         Tags tagEnum = TagsToNames.getTag(tag);
         int layer = getLayer(tagEnum);
+        if (gameObject.getTag().equals(TagsToNames.getTagName(Tags.TREE))) {
+            Tree tree = (Tree) gameObject;
+            for (Leaf leaf : tree.getLeaves()) {
+                gameObjects().removeGameObject(leaf, layer);
+            }
+            for (Fruit fruit : tree.getFruits()) {
+                gameObjects().removeGameObject(fruit, layer);
+            }
+        }
         gameObjects().removeGameObject(gameObject, layer);
 
     }
