@@ -3,7 +3,8 @@ itaiweiss,roisegel
 
 trees package implementation:
 Classes:
-- Flora - an abstract class that is used to generate trees over the terrain
-- Tree
-- Fruit
-- Leaf
+- Flora - a class containing a method for creating trees given a range
+- Tree - a class representing a tree. The tree itself is the tree trunk, and it has a list of leaves and a
+list of fruits.
+- Fruit - a class representing a fruit.
+- Leaf - a class representing a leaf.

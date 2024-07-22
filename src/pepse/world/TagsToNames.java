@@ -4,7 +4,7 @@ import pepse.Tags;
 /**
  * A class that converts tags to names.
  */
-public abstract class TagsToNames {
+public class TagsToNames {
     /**
      * Converts a tag to a name.
      * @param tag The tag to convert.
