@@ -11,6 +11,8 @@ import pepse.world.TagsToNames;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
 
 /**
  * Represents a tree in the game
@@ -28,16 +30,18 @@ public class Tree extends GameObject{
     private static final int TWO = 2;
     private final ArrayList<Leaf> leaves;
     private final ArrayList<Fruit> fruits;
+    private Random random;
     /**
      * Creates a tree at the given location
      * @param location the location of the tree
      */
-    public Tree(Vector2 location){
+    public Tree(Vector2 location, int randomSeed){
         super(new Vector2(location.x(),location.y() - TREE_HEIGHT),
                 new Vector2(TREE_WIDTH, TREE_HEIGHT),
                 new RectangleRenderable(ColorSupplier.approximateColor(BASE_TREE_COLOR)));
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
+        this.random = new Random(Objects.hash(randomSeed, location.x()));
         this.leaves = new ArrayList<>();
         this.fruits = new ArrayList<>();
         int leafSize = Leaf.getLeafSize();
@@ -54,10 +58,10 @@ public class Tree extends GameObject{
                         location.x() + i * leafSize - xOffset,
                         location.y() - TREE_HEIGHT + j * leafSize - yOffset
                 );
-                if (Math.random() < PROBABILITY_FOR_LEAF) {
+                if (this.random.nextFloat() < PROBABILITY_FOR_LEAF) {
                     this.leaves.add(new Leaf(canopyLocation));
                 }
-                else if (Math.random() < PROBABILITY_FOR_FRUIT){
+                else if (this.random.nextFloat() < PROBABILITY_FOR_FRUIT){
                     this.fruits.add(new Fruit(canopyLocation));
                 }
             }

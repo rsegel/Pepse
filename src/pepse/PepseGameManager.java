@@ -34,7 +34,7 @@ public class PepseGameManager extends GameManager {
 
 
 
-    private static final int CYCLE_DEFAULT = 30;
+    private static final int CYCLE_DEFAULT = 300;
     private static final float OFFSIDE_AVATAR_Y = 50;
     private static final int MIN_INIT_RANGE = 0;
     private static final int MAX_INIT_RANGE = 1600;
