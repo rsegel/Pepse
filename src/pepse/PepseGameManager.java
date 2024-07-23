@@ -183,15 +183,15 @@ public class PepseGameManager extends GameManager {
     }
 
     private void changeObjsInRange(int min, int max) {
-        deleteNonVisibleObjects();
+        deleteNonVisibleObjects(min, max);
         useTerrainToCreateGround(min, max);
         useFloraToCreateTrees(min, max);
     }
 
-    private void deleteNonVisibleObjects() {
+    private void deleteNonVisibleObjects(int min, int max) {
         for (GameObject gameObject : gameObjects()) {
             // remove all objects that are not visible
-            if (gameObject.getCenter().x() < minLegitX || gameObject.getCenter().x() > maxLegitX) {
+            if (gameObject.getCenter().x() < min || gameObject.getCenter().x() > max) {
                 if(gameObject.getTag().equals(TagsToNames.getTagName(Tags.TREE)) ||
                         gameObject.getTag().equals(TagsToNames.getTagName(Tags.BLOCK)) ||
                         gameObject.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))){
