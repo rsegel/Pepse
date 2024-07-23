@@ -3,7 +3,9 @@ itaiweiss,roisegel
 
 trees package implementation:
 Classes:
-- Flora - a class containing a method for creating trees given a range.
+- Flora - a class containing a method for creating trees given a range. Flora implements the GeneratorInRange
+interface which is shared with Terrain. This interface is used to allow the PepseGameManager to generate
+objects in a range without knowing the specifics of the objects.
 - Tree - a class representing a tree. The tree itself is the tree trunk, and it contains a list of leaves and
 a list of fruits. The fruits and leaves are randomly generated in a square around the top of the tree.
 - Fruit - a class representing a fruit. Fruits change color when the avatar jumps and disappear for 30
@@ -12,19 +14,25 @@ seconds when the avatar collides with them.
 when the avatar jumps.
 
 Relations between classes:
-Flora's method returns a list of trees. Each tree has a list of leaves and a list of fruits, which are
-transparent to Flora. Trees are also in charge of updating their leaves and fruit that a jump occurred.
-Both Flora and Terrain are classes that have no meaning for instantiation, since they are only used for
-generating objects.
+Flora's method returns a list of GameObjects since we wanted a shared interface with Terrain. PepseGameManager
+ then casts each object to a Tree so that it can also access the leaves and fruit (similarly, it casts the
+ objects from Terrain to Blocks).
+Each tree has a list of leaves and a list of fruits, which are transparent to Flora.
+The Trees are also in charge of updating their leaves and fruit that a jump occurred.
+Flora needs to know what height to place trees so it receives a callable from PepseGameManager that returns
+the height of the terrain at a given x. This simplifies the dependency graph by making Flora only dependent on
+ PepseGameManager and not on Terrain.
 
 Design patterns:
 - Observer - the avatar is the subject and the trees are the observers. The avatar notifies the trees when it
 jumps, and each tree notifies its leaves and fruits. We thought this is a more logical representation than
 having the fruits and leaves be independent observers of the avatar themselves since they are part of the tree
-and it allows the avatar to be oblivious to things the tree is in charge of.
-- Factory - Flora acts as a factory for trees, allowing the PepseGameManager to be oblivious to the tree
-creation requirements and the methods for generating consistent randomness.
+and it allows the avatar to be oblivious to things the tree is in charge of. In addition, the avatar is
+oblivious to what objects are the observers as it only receives Runnables from the PepseGameManager and calls
+their run method.
+- Factory - Both Flora and Terrain act as a factories for GameObjects, allowing the PepseGameManager to be
+oblivious to the Tree and Block creation requirements and the methods for generating consistent randomness.
 
 In addition, as part of our freedom of design, we thought that it makes the most sense for each object to
-manage its own state and update itself when dealing with eating fruits. This is why the avatar is in charge of
- adding energy to itself and the fruit is in charge of disappearing when eaten and coming back later.
+manage its own state and update itself when a fruit is eaten. This is why the avatar is in charge of adding
+energy to itself and the fruit is in charge of disappearing when eaten and coming back later.

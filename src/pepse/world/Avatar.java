@@ -135,6 +135,14 @@ public class Avatar extends GameObject {
         updateWhenJumping.add(observer);
     }
 
+    /**
+     * Removes an observer from the avatar.
+     * @param observer The observer to be removed from the avatar.
+     */
+    public void removeJumpObserver(Runnable observer) {
+        updateWhenJumping.remove(observer);
+    }
+
     private void handleJump() {
         transform().setVelocityY(VELOCITY_Y);
         energy -= ENERGY_LOSS_JUMP;
