@@ -23,6 +23,7 @@ import static pepse.world.Block.SIZE;
 
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 
 /**
@@ -65,6 +66,8 @@ public class PepseGameManager extends GameManager {
         windowDimensions = windowController.getWindowDimensions();
         minLegitX = - WORLD_BUFFER_FACTOR;
         maxLegitX = windowDimensions.x() + WORLD_BUFFER_FACTOR;
+        this.t = new Terrain(windowController.getWindowDimensions(), SEED);
+        this.f = new Flora(Terrain::groundHeightAt, SEED, this::fruitEatingHandler);
         Vector2 avatarPositionTopLeft = createAndInsertObjects(windowController, imageReader, inputListener);
         Vector2 dist_vector = new Vector2(
                 windowController.getWindowDimensions().x() * HALF_FLOAT_FACTOR - avatarPositionTopLeft.x(),
@@ -75,39 +78,48 @@ public class PepseGameManager extends GameManager {
                 windowController.getWindowDimensions()));
     }
 
+    private void fruitEatingHandler(GameObject eatenFruit,GameObject other){
+        if (other.equals(avatar)){
+            avatar.addEnergy(FRUIT_ENERGY);
+            this.gameObjects().removeGameObject(eatenFruit,
+                    getLayer(TagsToNames.getTag(eatenFruit.getTag())));
+            new ScheduledTask(avatar, CYCLE_DEFAULT, false,
+                    () -> this.gameObjects().addGameObject(eatenFruit,
+                            getLayer(TagsToNames.getTag(eatenFruit.getTag()))));
+        }
+    };
+
     private Vector2 createAndInsertObjects(WindowController windowController,
                                         ImageReader imageReader, UserInputListener inputListener) {
-        GameObject sky = Sky.create(windowController.getWindowDimensions());
-        GameObject night = Night.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
-        t = new Terrain(windowController.getWindowDimensions(), SEED);
+
         useTerrainToCreateGround(MIN_INIT_RANGE, (int) windowDimensions.x());
+
+        createWorldObjects(windowController);
+
         Vector2 avatarPositionTopLeft = new Vector2(windowController.getWindowDimensions().x()/ TWO,
                 Terrain.groundHeightAt(windowController.getWindowDimensions().x()) / AVATAR_Y_FACTOR);
-        GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
-        GameObject sunHalo = SunHalo.create(sun);
         avatar = new Avatar(avatarPositionTopLeft, inputListener, imageReader);
-        gameObjects().addGameObject(sky, getLayer(TagsToNames.getTag(sky.getTag())));
-        gameObjects().addGameObject(sun, getLayer(TagsToNames.getTag(sun.getTag())));
-        gameObjects().addGameObject(night, getLayer(TagsToNames.getTag(night.getTag())));
-        EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
         gameObjects().addGameObject(avatar, getLayer(TagsToNames.getTag(avatar.getTag())));
-        f = new Flora(Terrain::groundHeightAt, SEED,
-                (eatenFruit, other) -> {
-                    if (other.equals(avatar)){
-                        avatar.addEnergy(FRUIT_ENERGY);
-                        this.gameObjects().removeGameObject(eatenFruit,
-                                getLayer(TagsToNames.getTag(eatenFruit.getTag())));
-                        new ScheduledTask(avatar, CYCLE_DEFAULT, false,
-                                () -> this.gameObjects().addGameObject(eatenFruit,
-                                        getLayer(TagsToNames.getTag(eatenFruit.getTag()))));
-                    }
-                });
+
         useFloraToCreateTrees(MIN_INIT_RANGE, (int) windowDimensions.x());
         gameObjects().layers().shouldLayersCollide(LayerGetter.getLayer(Tags.AVATAR),
                 LayerGetter.getLayer(Tags.FRUIT), true);
-        gameObjects().addGameObject(sunHalo, getLayer(TagsToNames.getTag(sunHalo.getTag())));
+
+        EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
         gameObjects().addGameObject(energyRenderer, getLayer(TagsToNames.getTag(energyRenderer.getTag())));
+
         return avatarPositionTopLeft;
+    }
+
+    private void createWorldObjects(WindowController windowController) {
+        GameObject sky = Sky.create(windowController.getWindowDimensions());
+        GameObject night = Night.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
+        GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_DEFAULT);
+        GameObject sunHalo = SunHalo.create(sun);
+        gameObjects().addGameObject(sky, getLayer(TagsToNames.getTag(sky.getTag())));
+        gameObjects().addGameObject(night, getLayer(TagsToNames.getTag(night.getTag())));
+        gameObjects().addGameObject(sun, getLayer(TagsToNames.getTag(sun.getTag())));
+        gameObjects().addGameObject(sunHalo, getLayer(TagsToNames.getTag(sunHalo.getTag())));
     }
 
 
