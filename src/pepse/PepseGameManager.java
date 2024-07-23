@@ -169,7 +169,8 @@ public class PepseGameManager extends GameManager {
                         gameObject.getTag().equals(TagsToNames.getTagName(Tags.BLOCK)) ||
                         gameObject.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))){
                     removeFromRightLayer(gameObject);
-                    avatar.removeJumpObserver(((Tree) gameObject).avatarJumped());
+                    if (gameObject.getTag().equals(TagsToNames.getTagName(Tags.TREE))){
+                        avatar.removeJumpObserver(((Tree) gameObject).avatarJumped());}
                 }
             }
         }
