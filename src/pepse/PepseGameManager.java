@@ -21,9 +21,7 @@ import pepse.world.trees.Tree;
 import static pepse.LayerGetter.getLayer;
 import static pepse.world.Block.SIZE;
 
-
 import java.util.List;
-import java.util.function.BiConsumer;
 
 
 /**
@@ -87,7 +85,7 @@ public class PepseGameManager extends GameManager {
                     () -> this.gameObjects().addGameObject(eatenFruit,
                             getLayer(TagsToNames.getTag(eatenFruit.getTag()))));
         }
-    };
+    }
 
     private Vector2 createAndInsertObjects(WindowController windowController,
                                         ImageReader imageReader, UserInputListener inputListener) {
@@ -179,19 +177,18 @@ public class PepseGameManager extends GameManager {
             maxLegitX = maxLegitX + WORLD_BUFFER_FACTOR;
             minLegitX = minLegitX + WORLD_BUFFER_FACTOR;
         }
-
+        deleteNonVisibleObjects();
     }
 
     private void changeObjsInRange(int min, int max) {
-        deleteNonVisibleObjects(min, max);
         useTerrainToCreateGround(min, max);
         useFloraToCreateTrees(min, max);
     }
 
-    private void deleteNonVisibleObjects(int min, int max) {
+    private void deleteNonVisibleObjects() {
         for (GameObject gameObject : gameObjects()) {
             // remove all objects that are not visible
-            if (gameObject.getCenter().x() < min || gameObject.getCenter().x() > max) {
+            if (gameObject.getCenter().x() < minLegitX || gameObject.getCenter().x() > maxLegitX) {
                 if(gameObject.getTag().equals(TagsToNames.getTagName(Tags.TREE)) ||
                         gameObject.getTag().equals(TagsToNames.getTagName(Tags.BLOCK)) ||
                         gameObject.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))){
@@ -210,10 +207,10 @@ public class PepseGameManager extends GameManager {
         if (gameObject.getTag().equals(TagsToNames.getTagName(Tags.TREE))) {
             Tree tree = (Tree) gameObject;
             for (Leaf leaf : tree.getLeaves()) {
-                gameObjects().removeGameObject(leaf, layer);
+                gameObjects().removeGameObject(leaf, LayerGetter.getLayer(Tags.LEAF));
             }
             for (Fruit fruit : tree.getFruits()) {
-                gameObjects().removeGameObject(fruit, layer);
+                gameObjects().removeGameObject(fruit, LayerGetter.getLayer(Tags.FRUIT));
             }
         }
         gameObjects().removeGameObject(gameObject, layer);
