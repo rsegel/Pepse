@@ -9,7 +9,7 @@ import pepse.Tags;
 import pepse.util.ColorSupplier;
 import pepse.world.TagsToNames;
 
-import java.awt.*;
+import java.awt.Color;
 /**
  * Class representing a leaf in the game
  */

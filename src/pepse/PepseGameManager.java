@@ -19,7 +19,6 @@ import pepse.world.trees.Tree;
 
 import static pepse.LayerGetter.getLayer;
 import static pepse.world.Block.SIZE;
-import static pepse.world.trees.Flora.createInRange;
 
 
 import java.util.List;
@@ -46,6 +45,7 @@ public class PepseGameManager extends GameManager {
     private static final int NUM_OF_BLCK_FOR_BUFFER = 3;
     private static final float WORLD_BUFFER_FACTOR =  SIZE * NUM_OF_BLCK_FOR_BUFFER;
     private Terrain t;
+    private Flora f;
     private Avatar avatar;
 
 
@@ -89,6 +89,7 @@ public class PepseGameManager extends GameManager {
         gameObjects().addGameObject(night, getLayer(TagsToNames.getTag(night.getTag())));
         EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
         gameObjects().addGameObject(avatar, getLayer(TagsToNames.getTag(avatar.getTag())));
+        f = new Flora(Terrain::groundHeightAt, SEED);
         useFloraToCreateTrees(MIN_INIT_RANGE, (int) windowDimensions.x());
         gameObjects().addGameObject(sunHalo, getLayer(TagsToNames.getTag(sunHalo.getTag())));
         gameObjects().addGameObject(energyRenderer, getLayer(TagsToNames.getTag(energyRenderer.getTag())));
@@ -96,8 +97,9 @@ public class PepseGameManager extends GameManager {
     }
 
     private void useFloraToCreateTrees(int minInitRange, int maxInitRange) {
-        List<Tree> treesList = Flora.createInRange(minInitRange, maxInitRange);
-        for (Tree tree : treesList){
+        List<GameObject> treesList = f.createInRange(minInitRange, maxInitRange);
+        for (GameObject objectTree : treesList){
+            Tree tree = (Tree) objectTree;
             gameObjects().addGameObject(tree, getLayer(TagsToNames.getTag(tree.getTag())));
             avatar.addJumpObserver(tree.avatarJumped());
             List<Leaf> leaves = tree.getLeaves();
@@ -112,8 +114,9 @@ public class PepseGameManager extends GameManager {
     }
 
     private void useTerrainToCreateGround(int minRange,int maxRange) {
-        List<Block> blockList = t.createInRange(minRange, maxRange);
-        for (Block block : blockList) {
+        List<GameObject> blockList = t.createInRange(minRange, maxRange);
+        for (GameObject objectBlock : blockList) {
+            Block block = (Block) objectBlock;
             if (block.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))) {
                 gameObjects().addGameObject(block, getLayer(TagsToNames.getTag(block.getTag())));
             }

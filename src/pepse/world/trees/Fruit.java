@@ -10,7 +10,7 @@ import pepse.util.ColorSupplier;
 import pepse.world.TagsToNames;
 import static pepse.PepseGameManager.CYCLE_DEFAULT;
 
-import java.awt.*;
+import java.awt.Color;
 /**
  * Class for creating fruit in the world at random locations
  */

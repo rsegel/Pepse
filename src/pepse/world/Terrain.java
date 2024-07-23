@@ -1,5 +1,6 @@
 package pepse.world;
 
+import danogl.GameObject;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
@@ -18,7 +19,7 @@ import static pepse.world.Block.SIZE;
  * The terrain is generated using Perlin noise.,
  * and responsible for creating the blocks that make up the ground.
  */
-public class Terrain {
+public class Terrain implements GeneratorInRange{
     private static final float DEFAULT_GROUND_FACTOR = (float) (2.0/3.0);
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final double DEPTH_OF_BLOCKS = 30;
@@ -68,8 +69,8 @@ public class Terrain {
      * @param maxX The maximum x coordinate.
      * @return A list of blocks in the specified range.
      */
-    public List<Block> createInRange(int minX, int maxX) {
-        List<Block> blocks = new ArrayList<>();
+    public List<GameObject> createInRange(int minX, int maxX) {
+        List<GameObject> blocks = new ArrayList<>();
         // find the closest X that is a multiple of 30
         // it should be smaller than minX
         int closestStartX = minX - (minX % DIST_BETWEEN_BLOCKS) - NUM_OF_ADD * SIZE;
@@ -79,10 +80,9 @@ public class Terrain {
             createBlocksAtX(x, blocks);
         }
         return blocks;
-
     }
 
-    private void createBlocksAtX(int x, List<Block> blocks) {
+    private void createBlocksAtX(int x, List<GameObject> blocks) {
         for (int i = 0; i < DEPTH_OF_BLOCKS; i++) {
             boolean isTopLayer = i == 0;
             // create a block at x, groundHeightAt(x)

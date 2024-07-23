@@ -8,7 +8,7 @@ import pepse.Tags;
 import pepse.util.ColorSupplier;
 import pepse.world.TagsToNames;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
