@@ -10,6 +10,8 @@ import pepse.util.ColorSupplier;
 import pepse.world.TagsToNames;
 
 import java.awt.Color;
+import java.util.Random;
+
 /**
  * Class representing a leaf in the game
  */
@@ -24,12 +26,12 @@ public class Leaf extends GameObject {
      * Constructor for the leaf
      * @param location the location of the leaf
      */
-    public Leaf(Vector2 location) {
+    public Leaf(Vector2 location, int seed) {
         super(location,
                 new Vector2(LEAF_SIZE, LEAF_SIZE),
                 new RectangleRenderable(ColorSupplier.approximateColor(BASE_LEAF_COLOR)));
         this.setTag(TagsToNames.getTagName(Tags.LEAF));
-        float waitTime = (float) (Math.random());
+        float waitTime = (new Random(seed).nextFloat());
         new ScheduledTask(this,
                 waitTime,
                 false, this::wobbleLeaf);
