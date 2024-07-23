@@ -29,7 +29,7 @@ public class Tree extends GameObject{
     private final ArrayList<Leaf> leaves;
     private final ArrayList<Fruit> fruits;
     private final Random random;
-    private BiConsumer<GameObject, GameObject> fruitEatingHandler;
+    private final BiConsumer<GameObject, GameObject> fruitEatingHandler;
 
     /**
      * Creates a tree at the given location
@@ -47,7 +47,7 @@ public class Tree extends GameObject{
         this.fruits = new ArrayList<>();
         int leafSize = Leaf.getLeafSize();
         int xOffset = (int) (leafSize * CANOPY_SIZE - TREE_WIDTH) / TWO;
-        int yOffset = (int) (leafSize * CANOPY_SIZE) / TWO;
+        int yOffset = (leafSize * CANOPY_SIZE) / TWO;
         setLeavesAndFruits(leafSize, xOffset, yOffset, location);
         this.setTag(TagsToNames.getTagName(Tags.TREE));
     }
@@ -60,7 +60,7 @@ public class Tree extends GameObject{
                         location.y() - TREE_HEIGHT + j * leafSize - yOffset
                 );
                 if (this.random.nextFloat() < PROBABILITY_FOR_LEAF) {
-                    this.leaves.add(new Leaf(canopyLocation));
+                    this.leaves.add(new Leaf(canopyLocation, Objects.hash(canopyLocation, location)));
                 }
                 else if (this.random.nextFloat() < PROBABILITY_FOR_FRUIT){
                     this.fruits.add(new Fruit(canopyLocation, fruitEatingHandler));

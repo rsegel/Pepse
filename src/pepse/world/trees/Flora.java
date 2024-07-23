@@ -3,7 +3,6 @@ package pepse.world.trees;
 import danogl.GameObject;
 import danogl.util.Vector2;
 import pepse.world.GeneratorInRange;
-import pepse.world.Terrain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +10,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-
-import static pepse.world.Block.SIZE;
 
 /**
  * Class for creating trees in the world at random locations
@@ -22,7 +19,7 @@ public class Flora implements GeneratorInRange {
     private static final float PROBABILITY_FOR_TREE = 0.2f;
     private final Function<Float, Float> getGroundHeight;
     private final int seed;
-    private BiConsumer<GameObject, GameObject> fruitEatingHandler;
+    private final BiConsumer<GameObject, GameObject> fruitEatingHandler;
 
     /**
      * Create a flora object
@@ -46,7 +43,7 @@ public class Flora implements GeneratorInRange {
     public List<GameObject> createInRange(int minX, int maxX) {
         List<GameObject> trees = new ArrayList<>();
         for (int x = minX; x <= maxX; x += TREE_SPACING){
-            float blockX = (float) ((double) (x / SIZE) * SIZE);
+            float blockX = (float) ((double) (x / TREE_SPACING) * TREE_SPACING);
             Random random = new Random(Objects.hash(blockX, seed));
             if (random.nextFloat() > PROBABILITY_FOR_TREE) continue;
             Vector2 location = new Vector2(blockX, this.getGroundHeight.apply(blockX));
