@@ -41,13 +41,7 @@ public class Leaf extends GameObject {
                 -ROTATION_ANGLE, ROTATION_ANGLE, Transition.LINEAR_INTERPOLATOR_FLOAT,
                 CYCLE_LENGTH, Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
-    @Override
-    public boolean shouldCollideWith(GameObject other) {
-        if (other.getTag().equals(TagsToNames.getTagName(Tags.LEAF)) ||
-                other.getTag().equals(TagsToNames.getTagName(Tags.FRUIT)))
-            return false;
-        return(super.shouldCollideWith(other));
-    }
+
     /**
      * Getter for the size of the leaf
      * @return the size of the leaf

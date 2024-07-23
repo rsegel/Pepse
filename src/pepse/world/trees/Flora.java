@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import static pepse.world.Block.SIZE;
@@ -21,15 +22,18 @@ public class Flora implements GeneratorInRange {
     private static final float PROBABILITY_FOR_TREE = 0.2f;
     private final Function<Float, Float> getGroundHeight;
     private final int seed;
+    private BiConsumer<GameObject, GameObject> fruitEatingHandler;
 
     /**
      * Create a flora object
      * @param getGroundHeight a function that returns the ground height at a given x value
      * @param seed the seed for the random number generator
      */
-    public Flora(Function<Float, Float> getGroundHeight, int seed) {
+    public Flora(Function<Float, Float> getGroundHeight, int seed,
+                 BiConsumer<GameObject, GameObject> fruitEatingHandler) {
         this.getGroundHeight = getGroundHeight;
         this.seed = seed;
+        this.fruitEatingHandler = fruitEatingHandler;
     }
 
 
@@ -46,7 +50,7 @@ public class Flora implements GeneratorInRange {
             Random random = new Random(Objects.hash(blockX, seed));
             if (random.nextFloat() > PROBABILITY_FOR_TREE) continue;
             Vector2 location = new Vector2(blockX, this.getGroundHeight.apply(blockX));
-            trees.add(new Tree(location, seed));
+            trees.add(new Tree(location, seed, fruitEatingHandler));
         }
         return trees;
     }

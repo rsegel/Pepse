@@ -11,6 +11,8 @@ import pepse.world.TagsToNames;
 import static pepse.PepseGameManager.CYCLE_DEFAULT;
 
 import java.awt.Color;
+import java.util.function.BiConsumer;
+
 /**
  * Class for creating fruit in the world at random locations
  */
@@ -20,28 +22,20 @@ public class Fruit extends GameObject{
     private static final Color FRUIT_COLOR = new Color(255, 0, 0);
     private static final int CYCLE_LENGTH = CYCLE_DEFAULT;
     private static final int FRUIT_COLOR_DELTA = 150;
+    private BiConsumer<GameObject, GameObject> fruitEatingHandler;
+
     /**
      * Create a fruit at a location
      * @param location the location of the fruit
      */
-    public Fruit(Vector2 location) {
+    public Fruit(Vector2 location, BiConsumer<GameObject, GameObject> fruitEatingHandler) {
         super(location,
                 new Vector2(FRUIT_SIZE, FRUIT_SIZE),
                 new OvalRenderable(FRUIT_COLOR));
+        this.fruitEatingHandler = fruitEatingHandler;
         this.setTag(TagsToNames.getTagName(Tags.FRUIT));
     }
-    /**
-     * makes sure that the fruit does not collide with other fruit or leaves
-     * @param other the object to check for collision with
-     * @return true if the object is not a leaf or fruit
-     */
-    @Override
-    public boolean shouldCollideWith(GameObject other) {
-        if (other.getTag().equals(TagsToNames.getTagName(Tags.LEAF)) ||
-                other.getTag().equals(TagsToNames.getTagName(Tags.FRUIT)))
-            return false;
-        return(super.shouldCollideWith(other));
-    }
+
     /**
      * When the avatar collides with the fruit, the fruit disappears and reappears after a delay
      * @param other the object that the fruit collided with
@@ -50,13 +44,7 @@ public class Fruit extends GameObject{
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
-        if (other.getTag().equals(TagsToNames.getTagName(Tags.AVATAR)) &&
-                this.getTag().equals(TagsToNames.getTagName(Tags.FRUIT))) {
-            this.renderer().setOpaqueness(0);
-            new ScheduledTask(this,
-                    CYCLE_LENGTH,
-                    false, this::reAppear);
-        }
+        this.fruitEatingHandler.accept(this, other);
     }
 
     private void reAppear() {

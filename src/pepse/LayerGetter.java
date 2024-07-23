@@ -9,6 +9,8 @@ public class LayerGetter {
     private static final int skyLayer = Layer.BACKGROUND - 1;
     private static final int NIGHT_LAYER = Layer.UI + 1;
     private static final int UNDERGROUND_LAYER = Layer.BACKGROUND + 1;
+    public static final int FRUIT_LAYER = Layer.STATIC_OBJECTS + 2;
+    public static final int LEAF_LAYER = Layer.STATIC_OBJECTS + 1;
 
     /**
      * Gets the layer of a tag.
@@ -24,8 +26,12 @@ public class LayerGetter {
                 return Layer.BACKGROUND;
             case BLOCK:
                 return UNDERGROUND_LAYER;
-            case TREE, FRUIT, LEAF, TOP_LAYER_BLOCK:
+            case TREE, TOP_LAYER_BLOCK:
                 return Layer.STATIC_OBJECTS;
+            case FRUIT:
+                return FRUIT_LAYER;
+            case LEAF:
+                return LEAF_LAYER;
             case ENERGY, COLLECTED_FRUIT:
                 return Layer.UI;
             case SKY:

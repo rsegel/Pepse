@@ -2,6 +2,7 @@ package pepse;
 
 import danogl.GameManager;
 import danogl.GameObject;
+import danogl.components.ScheduledTask;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
@@ -39,6 +40,7 @@ public class PepseGameManager extends GameManager {
     private static final int TWO = 2;
     private static final int SEED = 10;
     private static final float AVATAR_Y_FACTOR = 1.5f;
+    private static final float FRUIT_ENERGY = 10;
     private Vector2 windowDimensions;
     private float minLegitX;
     private float maxLegitX;
@@ -89,12 +91,25 @@ public class PepseGameManager extends GameManager {
         gameObjects().addGameObject(night, getLayer(TagsToNames.getTag(night.getTag())));
         EnergyRenderer energyRenderer = new EnergyRenderer(avatar::getEnergy);
         gameObjects().addGameObject(avatar, getLayer(TagsToNames.getTag(avatar.getTag())));
-        f = new Flora(Terrain::groundHeightAt, SEED);
+        f = new Flora(Terrain::groundHeightAt, SEED,
+                (eatenFruit, other) -> {
+                    if (other.equals(avatar)){
+                        avatar.addEnergy(FRUIT_ENERGY);
+                        this.gameObjects().removeGameObject(eatenFruit,
+                                getLayer(TagsToNames.getTag(eatenFruit.getTag())));
+                        new ScheduledTask(avatar, CYCLE_DEFAULT, false,
+                                () -> this.gameObjects().addGameObject(eatenFruit,
+                                        getLayer(TagsToNames.getTag(eatenFruit.getTag()))));
+                    }
+                });
         useFloraToCreateTrees(MIN_INIT_RANGE, (int) windowDimensions.x());
+        gameObjects().layers().shouldLayersCollide(LayerGetter.getLayer(Tags.AVATAR),
+                LayerGetter.getLayer(Tags.FRUIT), true);
         gameObjects().addGameObject(sunHalo, getLayer(TagsToNames.getTag(sunHalo.getTag())));
         gameObjects().addGameObject(energyRenderer, getLayer(TagsToNames.getTag(energyRenderer.getTag())));
         return avatarPositionTopLeft;
     }
+
 
     private void useFloraToCreateTrees(int minInitRange, int maxInitRange) {
         List<GameObject> treesList = f.createInRange(minInitRange, maxInitRange);

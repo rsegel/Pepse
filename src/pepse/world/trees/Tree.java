@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+import java.util.function.BiConsumer;
 
 /**
  * Represents a tree in the game
@@ -28,14 +29,17 @@ public class Tree extends GameObject{
     private final ArrayList<Leaf> leaves;
     private final ArrayList<Fruit> fruits;
     private final Random random;
+    private BiConsumer<GameObject, GameObject> fruitEatingHandler;
+
     /**
      * Creates a tree at the given location
      * @param location the location of the tree
      */
-    public Tree(Vector2 location, int randomSeed){
+    public Tree(Vector2 location, int randomSeed, BiConsumer<GameObject, GameObject> fruitEatingHandler){
         super(new Vector2(location.x(),location.y() - TREE_HEIGHT),
                 new Vector2(TREE_WIDTH, TREE_HEIGHT),
                 new RectangleRenderable(ColorSupplier.approximateColor(BASE_TREE_COLOR)));
+        this.fruitEatingHandler = fruitEatingHandler;
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
         this.random = new Random(Objects.hash(randomSeed, location.x()));
@@ -59,7 +63,7 @@ public class Tree extends GameObject{
                     this.leaves.add(new Leaf(canopyLocation));
                 }
                 else if (this.random.nextFloat() < PROBABILITY_FOR_FRUIT){
-                    this.fruits.add(new Fruit(canopyLocation));
+                    this.fruits.add(new Fruit(canopyLocation, fruitEatingHandler));
                 }
             }
         }

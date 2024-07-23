@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class Avatar extends GameObject {
 
     private static final String AVATAR_PATH = "assets/idle_0.png";
-    private static final float FRUIT_ENERGY = 10;
     private static final int ENERGY_LOSS_JUMP = 10;
     private static final double ENERGY_LOSS_RUN = 0.5;
     private final UserInputListener inputListener;
@@ -128,6 +127,17 @@ public class Avatar extends GameObject {
     }
 
     /**
+     * Adds energy to the avatar.
+     * @param energyToAdd The amount of energy to add to the avatar.
+     */
+    public void addEnergy(float energyToAdd) {
+        this.energy += energyToAdd;
+        if (this.energy > ENERGY_INIT) {
+            this.energy = ENERGY_INIT;
+        }
+    }
+
+    /**
      * Adds an observer to the avatar.
      * @param observer The observer to be added to the avatar.
      */
@@ -181,23 +191,5 @@ public class Avatar extends GameObject {
         }
         return xVel;
     }
-    /**
-     * When the avatar collides with a fruit, the avatar gains energy.
-     * @param other The object that the avatar collided with.
-     * @param collision The collision that occurred.
-     */
-    @Override
-    public void onCollisionEnter(GameObject other, Collision collision) {
-        if (other.getTag().equals(TagsToNames.getTagName(Tags.FRUIT))) {
-            energy += FRUIT_ENERGY;
-            if (energy > ENERGY_INIT) {
-                energy = ENERGY_INIT;
-            }
-            other.setTag(TagsToNames.getTagName(Tags.COLLECTED_FRUIT));
-        }
-        if (other.getTag().equals(TagsToNames.getTagName(Tags.TOP_LAYER_BLOCK))) {
-            transform().setVelocityY(0);
-        }
-        super.onCollisionEnter(other, collision);
-    }
+
 }
