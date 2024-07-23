@@ -5,7 +5,16 @@ package pepse.world;
  * The avatar can be idle, running or jumping.
  */
 public enum AvatarState {
+    /**
+     * The avatar is idle.
+     */
     IDLE,
+    /**
+     * The avatar is running.
+     */
     RUN,
+    /**
+     * The avatar is jumping.
+     */
     JUMP
 }
