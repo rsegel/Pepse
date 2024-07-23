@@ -74,7 +74,7 @@ public class PepseGameManager extends GameManager {
                 windowController.getWindowDimensions(),
                 windowController.getWindowDimensions()));
     }
-    // TODO: create a factory for the objects
+
     private Vector2 createAndInsertObjects(WindowController windowController,
                                         ImageReader imageReader, UserInputListener inputListener) {
         GameObject sky = Sky.create(windowController.getWindowDimensions());

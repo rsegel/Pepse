@@ -9,8 +9,8 @@ public class LayerGetter {
     private static final int skyLayer = Layer.BACKGROUND - 1;
     private static final int NIGHT_LAYER = Layer.UI + 1;
     private static final int UNDERGROUND_LAYER = Layer.BACKGROUND + 1;
-    public static final int FRUIT_LAYER = Layer.STATIC_OBJECTS + 2;
-    public static final int LEAF_LAYER = Layer.STATIC_OBJECTS + 1;
+    private static final int FRUIT_LAYER = Layer.STATIC_OBJECTS + 2;
+    private static final int LEAF_LAYER = Layer.STATIC_OBJECTS + 1;
 
     /**
      * Gets the layer of a tag.

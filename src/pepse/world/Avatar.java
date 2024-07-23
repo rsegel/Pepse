@@ -81,7 +81,10 @@ public class Avatar extends GameObject {
                 true, TIME_BETWEEN_FRAMES));
     }
 
-
+    /**
+     * Updates the avatar's position and energy.
+     * @param deltaTime The time since the last update.
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
