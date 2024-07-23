@@ -12,6 +12,7 @@ import pepse.world.*;
 import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
 import pepse.world.daynight.SunHalo;
+import pepse.world.trees.Flora;
 import pepse.world.trees.Fruit;
 import pepse.world.trees.Leaf;
 import pepse.world.trees.Tree;
@@ -95,7 +96,7 @@ public class PepseGameManager extends GameManager {
     }
 
     private void useFloraToCreateTrees(int minInitRange, int maxInitRange) {
-        List<Tree> treesList = createInRange(minInitRange, maxInitRange);
+        List<Tree> treesList = Flora.createInRange(minInitRange, maxInitRange);
         for (Tree tree : treesList){
             gameObjects().addGameObject(tree, getLayer(TagsToNames.getTag(tree.getTag())));
             avatar.addJumpObserver(tree.avatarJumped());
